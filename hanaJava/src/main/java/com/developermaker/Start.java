@@ -32,16 +32,15 @@ public class Start {
     }
 
     public void run() throws InterruptedException {
-        Start start = new Start();
         Scanner sc = new Scanner(System.in);
 
-        for (int i = 0; i < start.texts.length; i++) {
-            System.out.println(start.getText(i));
+        for (int i = 0; i < texts.length; i++) {
+            System.out.println(getText(i));
             Thread.sleep(1000);
         }
         System.out.println("\n-------------------- Choice ---------------------\n");
-        for (int i = 0; i < start.chices.length; i++) {
-            System.out.println(start.getChoice(i));
+        for (int i = 0; i < chices.length; i++) {
+            System.out.println(getChoice(i));
         }
         int choice;
         while (true) {
@@ -63,13 +62,13 @@ public class Start {
         System.out.println("\n-------------------- Result ---------------------\n");
         switch (choice) {
             case 1:
-                System.out.println(start.getResult(0));
+                System.out.println(getResult(0));
                 break ;
             case 2:
-                System.out.println(start.getResult(1));
+                System.out.println(getResult(1));
                 break ;
             case 3:
-                System.out.println(start.getResult(2));
+                System.out.println(getResult(2));
                 break ;
         }
         sc.close();
