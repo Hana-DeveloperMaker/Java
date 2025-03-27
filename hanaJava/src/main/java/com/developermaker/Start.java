@@ -1,9 +1,8 @@
 package com.developermaker;
 
-import com.developermaker.dto.User;
+import com.developermaker.entity.User;
 import com.developermaker.utils.JsonUtil;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Start {
