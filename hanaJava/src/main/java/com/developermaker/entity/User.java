@@ -1,4 +1,4 @@
-package com.developermaker.dto;
+package com.developermaker.entity;
 
 public class User {
     private String nickname;
