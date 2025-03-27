@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### 사용자 json 저장 디렉토리 ###
+data/
