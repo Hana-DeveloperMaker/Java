@@ -2,7 +2,7 @@ package com.developermaker;
 
 import java.util.Scanner;
 
-public class Start {
+public class Study {
     private final String[] texts = {
             "내일 드디어 하나금융TI 최종 면접이다! 면접 준비를 더 할까, 쉴까?",
             "(따르르릉)",
