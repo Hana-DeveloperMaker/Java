@@ -34,43 +34,62 @@ public class Study {
     public void run() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("\n" + "═".repeat(60));
+        System.out.println("📖 당신의 이야기 시작됩니다...");
+        System.out.println("═".repeat(60) + "\n");
+        Thread.sleep(1000);
+
+        // 스토리 출력
         for (int i = 0; i < texts.length; i++) {
-            System.out.println(getText(i));
+            System.out.println("📜 " + getText(i));
             Thread.sleep(1000);
         }
-        System.out.println("\n-------------------- Choice ---------------------\n");
+
+        // 선택지 출력
+        System.out.println("\n" + "═".repeat(60));
+        System.out.println("🎯 당신의 선택은?");
+        System.out.println("═".repeat(60) + "\n");
+
         for (int i = 0; i < chices.length; i++) {
-            System.out.println(getChoice(i));
+            System.out.println("🔹 " + getChoice(i));
         }
+
+        // 선택 입력 받기
         int choice;
         while (true) {
-            System.out.print("\n선택 > ");
+            System.out.print("\n🎤 선택 > ");
             try {
                 choice = sc.nextInt(); // 정수 입력 받기
 
                 if (choice >= 1 && choice <= 3) {
                     break; // 유효한 입력이면 반복문 탈출
                 } else {
-                    System.out.println("잘못된 입력입니다. 1~3 사이의 숫자를 입력하세요.");
+                    System.out.println("⚠️ 잘못된 입력입니다. 1~3 사이의 숫자를 입력하세요.");
                 }
             } catch (Exception e) {
-                System.out.println("잘못된 입력입니다. 1~3 사이의 숫자를 입력하세요.");
+                System.out.println("⚠️ 숫자를 입력하세요! (1~3)");
                 sc.nextLine(); // 버퍼 비우기 (잘못된 입력 제거)
             }
         }
 
-        System.out.println("\n-------------------- Result ---------------------\n");
+        // 결과 출력
+        System.out.println("\n" + "═".repeat(60));
+        System.out.println("🔮 당신의 선택 결과는...");
+        Thread.sleep(1500);
+        System.out.println("═".repeat(60) + "\n");
+
         switch (choice) {
             case 1:
-                System.out.println(getResult(0));
-                break ;
+                System.out.println("✅ " + getResult(0));
+                break;
             case 2:
-                System.out.println(getResult(1));
-                break ;
+                System.out.println("✅ " + getResult(1));
+                break;
             case 3:
-                System.out.println(getResult(2));
-                break ;
+                System.out.println("✅ " + getResult(2));
+                break;
         }
+
         sc.close();
     }
 }
