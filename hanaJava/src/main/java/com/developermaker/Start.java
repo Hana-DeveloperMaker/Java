@@ -6,7 +6,7 @@ import com.developermaker.utils.JsonUtil;
 import java.util.Scanner;
 
 public class Start {
-    public void run(Scanner sc) throws Exception {
+    public void play(Scanner sc) throws Exception {
 
         System.out.println("\n" + "═".repeat(60));
         System.out.println("           🚀 개발자 키우기에 오신 여러분 환영합니다! 🚀");
@@ -28,11 +28,6 @@ public class Start {
         try {
             JsonUtil.saveUser(user);
             System.out.println("✅ 닉네임 등록 완료! 환영합니다, " + name + "님! 🎉");
-
-            System.out.println("\n" + "═".repeat(60));
-            System.out.println("📖 당신의 이야기 시작됩니다...");
-            System.out.println("═".repeat(60) + "\n");
-            Thread.sleep(1500);
         } catch (Exception e) {
             e.printStackTrace();
         }

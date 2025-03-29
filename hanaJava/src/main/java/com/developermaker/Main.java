@@ -11,8 +11,8 @@ public class Main {
         Alarm alarm = new Alarm();
 
         // 실행 메서드
-        start.run(sc);
-        study.run(sc);
-        alarm.run(sc);
+        start.play(sc);
+        study.play(sc);
+        alarm.play(sc);
     }
 }

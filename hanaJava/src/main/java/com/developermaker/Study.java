@@ -1,8 +1,6 @@
 package com.developermaker;
 
-import java.util.Scanner;
-
-public class Study {
+class Study extends BaseScenario {
     private final String[] texts = {
             "내일 드디어 하나금융TI 최종 면접이다! 면접 준비를 더 할까, 쉴까?",
             "(따르르릉)",
@@ -21,58 +19,9 @@ public class Study {
             "잠도 안오는데 유튜브나 봐야겠다 ~"
     };
 
-    public String getText(int index) {
-        return texts[index];
-    }
-    public String getChoice(int index) {
-        return choices[index];
-    }
-    public String getResult(int index) {
-        return results[index];
-    }
-
-    public void run(Scanner sc) throws InterruptedException {
-
-        // 스토리 출력
-        for (int i = 0; i < texts.length; i++) {
-            System.out.println("📜 " + getText(i));
-            Thread.sleep(1000);
-        }
-
-        // 선택지 출력
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println("🎯 당신의 선택은?");
-        System.out.println("═".repeat(60) + "\n");
-
-        for (int i = 0; i < choices.length; i++) {
-            System.out.println("🔹 " + (i + 1) + ". " + getChoice(i));
-        }
-
-        // 선택 입력 받기
-        int choice;
-        while (true) {
-            System.out.print("\n🎤 선택 > ");
-            try {
-                choice = sc.nextInt(); // 정수 입력 받기
-
-                if (choice >= 1 && choice <= 3) {
-                    break; // 유효한 입력이면 반복문 탈출
-                } else {
-                    System.out.println("⚠️ 잘못된 입력입니다. 1~3 사이의 숫자를 입력하세요.");
-                }
-            } catch (Exception e) {
-                System.out.println("⚠️ 숫자를 입력하세요! (1~3)");
-                sc.nextLine(); // 버퍼 비우기 (잘못된 입력 제거)
-            }
-        }
-
-        // 결과 출력
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println("🔮 당신의 선택 결과는...");
-        System.out.println("═".repeat(60) + "\n");
-        Thread.sleep(500);
-        System.out.println("✅ " + getResult(choice - 1));
-
-        Thread.sleep(1500);
-    }
+    @Override protected String getScene() { return "📖 당신의 이야기 시작됩니다..."; }
+    @Override protected String[] getTexts() { return texts; }
+    @Override protected String[] getChoices() { return choices; }
+    @Override protected String[] getResults() { return results; }
+    @Override protected boolean isRandomChoice() { return false; }
 }
