@@ -18,7 +18,7 @@ public class Carousel extends JFrame {
     private int currentIndex = 0;
     private String[] imagePaths = {
             "src/main/java/com/developermaker/images/dress.png",
-            "src/main/java/com/developermaker/images/breakfast.png",
+            "src/main/java/com/developermaker/images/wakeUpResult1.png",
             "src/main/java/com/developermaker/images/img_happy.png"
     };
     public Carousel(User user){
