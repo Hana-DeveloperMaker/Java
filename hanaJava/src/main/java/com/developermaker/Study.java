@@ -10,10 +10,10 @@ public class Study {
             "???: 나 고민이 있는데 혹시 들어줄 수 있어...?",
             "면접까지 12시간 남은 시각가장 친한 친구가 고민을 들어달라 한다... 어떻게 할까?"
     };
-    private final String[] chices = {
-            "1. 그래도 내일이 면접인데.. 면접 준비를 더 하다 잔다",
-            "2. 친구가 최고지! 친구 고민상담 들어준다",
-            "3. 아 몰라... 그냥 쉰다"
+    private final String[] choices = {
+            "그래도 내일이 면접인데.. 면접 준비를 더 하다 잔다",
+            "친구가 최고지! 친구 고민상담 들어준다",
+            "아 몰라... 그냥 쉰다"
     };
     private final String[] results = {
             "좀 정리가 되는 것 같아",
@@ -25,19 +25,13 @@ public class Study {
         return texts[index];
     }
     public String getChoice(int index) {
-        return chices[index];
+        return choices[index];
     }
     public String getResult(int index) {
         return results[index];
     }
 
-    public void run() throws InterruptedException {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println("📖 당신의 이야기 시작됩니다...");
-        System.out.println("═".repeat(60) + "\n");
-        Thread.sleep(1000);
+    public void run(Scanner sc) throws InterruptedException {
 
         // 스토리 출력
         for (int i = 0; i < texts.length; i++) {
@@ -50,8 +44,8 @@ public class Study {
         System.out.println("🎯 당신의 선택은?");
         System.out.println("═".repeat(60) + "\n");
 
-        for (int i = 0; i < chices.length; i++) {
-            System.out.println("🔹 " + getChoice(i));
+        for (int i = 0; i < choices.length; i++) {
+            System.out.println("🔹 " + (i + 1) + ". " + getChoice(i));
         }
 
         // 선택 입력 받기
@@ -75,21 +69,10 @@ public class Study {
         // 결과 출력
         System.out.println("\n" + "═".repeat(60));
         System.out.println("🔮 당신의 선택 결과는...");
-        Thread.sleep(1500);
         System.out.println("═".repeat(60) + "\n");
+        Thread.sleep(500);
+        System.out.println("✅ " + getResult(choice - 1));
 
-        switch (choice) {
-            case 1:
-                System.out.println("✅ " + getResult(0));
-                break;
-            case 2:
-                System.out.println("✅ " + getResult(1));
-                break;
-            case 3:
-                System.out.println("✅ " + getResult(2));
-                break;
-        }
-
-        sc.close();
+        Thread.sleep(1500);
     }
 }
