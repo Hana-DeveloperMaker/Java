@@ -68,7 +68,7 @@ abstract class BaseScenario {
                             System.out.println("✅ " + result.getMessage());
                             // 점수 업데이트 및 저장
                             try {
-                                boolean updateSuccess = JsonUtil.setUserScore(user.getNickname(), result.getScoreMap());
+                                boolean updateSuccess = JsonUtil.setUserScore(user.getNickname(), result);
                                 if (!updateSuccess)
                                     System.out.println("⚠️ 점수 업데이트에 실패했습니다. 닉네임을 확인해주세요.");
                             } catch (Exception e) {

@@ -11,8 +11,8 @@ class Alarm extends BaseScenario {
     };
     private final String[] choices = { "🕰", "⏰", "⌚", "🕖" };
     private final Result[] results = {
-            new Result("진짜 시계를 찾았다!"),      // 성공
-            new Result("흠.. 이건 아닌 것 같아"),   // 실패
+            new Result("alarmResult0", "진짜 시계를 찾았다!"),      // 성공
+            new Result("alarmResult1", "흠.. 이건 아닌 것 같아"),   // 실패
     };
 
     @Override protected String getScene() { return "☀️ 다음 날..."; }

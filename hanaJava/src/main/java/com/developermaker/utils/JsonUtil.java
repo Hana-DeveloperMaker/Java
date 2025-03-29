@@ -1,5 +1,6 @@
 package com.developermaker.utils;
 
+import com.developermaker.entity.Result;
 import com.developermaker.entity.User;
 import com.developermaker.entity.ScoreType;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -56,7 +57,7 @@ public class JsonUtil {
     }
 
     // 특정 유저의 점수 추가 후 업데이트
-    public static boolean setUserScore(String nickname, Map<ScoreType, Integer> scoreMap) throws Exception {
+    public static boolean setUserScore(String nickname, Result result) throws Exception {
         Map<String, User> users = loadUsers();
 
         User user = users.get(nickname);
@@ -64,10 +65,7 @@ public class JsonUtil {
             return false; // 사용자 없음
         }
 
-        // 점수 업데이트
-        for (Map.Entry<ScoreType, Integer> entry : scoreMap.entrySet()) {
-            user.updateScore(entry.getKey(), entry.getValue());
-        }
+        user.updateScores(result);
 
         // 파일에 저장
         mapper.writeValue(new File(FILE_PATH), users);

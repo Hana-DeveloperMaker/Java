@@ -15,10 +15,10 @@ class WakeUp extends BaseScenario {
             "일찍 일어난 김에 빨리 씻자! 정신을 부여잡고 씻으러 간다.",
     };
     private final Result[] results = {
-            new Result( "으악! 10분만 잔다는 게 그만... 늦었다! 얼른 일어나서 씻어야지!!", Map.of(
+            new Result("wakeUpResult0", "으악! 10분만 잔다는 게 그만... 늦었다! 얼른 일어나서 씻어야지!!", Map.of(
                     ScoreType.PASSION, -5
             )),
-            new Result("부지런히 준비하니 여유롭고 좋아~ ♩♪♬", Map.of(
+            new Result("wakeUpResult1", "부지런히 준비하니 여유롭고 좋아~ ♩♪♬", Map.of(
                     ScoreType.PASSION, 5
             )),
     };

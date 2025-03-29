@@ -19,15 +19,15 @@ class Study extends BaseScenario {
             "아 몰라... 그냥 쉰다"
     };
     private final Result[] results = {
-            new Result("좀 정리가 되는 것 같아", Map.of(
+            new Result("studyResult0", "좀 정리가 되는 것 같아", Map.of(
                     ScoreType.PASSION, 10,
                     ScoreType.EXCELLENCE, 10
             )),
-            new Result("친구: 아니 글쎄 여자친구가 .... ....", Map.of(
+            new Result("studyResult1", "친구: 아니 글쎄 여자친구가 .... ....", Map.of(
                     ScoreType.OPENNESS, 10,
                     ScoreType.RESPECT, 10
             )),
-            new Result("잠도 안오는데 유튜브나 봐야겠다 ~", Map.of(
+            new Result("studyResult2", "잠도 안오는데 유튜브나 봐야겠다 ~", Map.of(
                     ScoreType.PASSION, -5,
                     ScoreType.RESPECT, -5
             ))
