@@ -20,5 +20,8 @@ public class Main {
         alarm.play(sc, user);
         wakeUp.play(sc, user);
         dress.play(sc, user);
+
+        Carousel carousel = new Carousel(user);
+//        carousel.printNickname(user);
     }
 }

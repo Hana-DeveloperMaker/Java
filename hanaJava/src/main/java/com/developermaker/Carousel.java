@@ -1,34 +1,90 @@
 package com.developermaker;
+import com.developermaker.entity.Result;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import com.developermaker.entity.User;
+import com.developermaker.entity.Result;
+import com.developermaker.utils.JsonUtil;
+
+import java.util.Map;
 
 public class Carousel extends JFrame {
-    public Carousel(){
+    private JLabel imageLabel;
+    private int currentIndex = 0;
+    private String[] imagePaths = {
+            "src/main/java/com/developermaker/images/dress.png",
+            "src/main/java/com/developermaker/images/breakfast.png",
+            "src/main/java/com/developermaker/images/img_happy.png"
+    };
+    public Carousel(User user){
         setTitle("나의 오늘 하루 되돌아보기🔍");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // 프레임 종료버튼 사용 시 응용 프로그램도 종료시키는 방법
+        setLayout(new BorderLayout());
 
-        // 컨텐트팬 알아내기
-        Container contentPane = getContentPane();
-        // 컨텐트팬 배경색 설정
-        contentPane.setBackground(Color.YELLOW);
-        // 컨턴트팬 레이아웃 설정
-        contentPane.setLayout(new FlowLayout());
+        // 이미지 라벨 생성
+        imageLabel = new JLabel();
+        updateImage();  // 첫 번째 이미지 로드
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(imageLabel, BorderLayout.CENTER);
 
-        // 프레임에 JButton 컴포넌트 추가하기
-        contentPane.add(new JButton("Java"));
-        contentPane.add(new JButton("Python"));
-        contentPane.add(new JButton("C"));
-        ImageIcon icon = new ImageIcon("src/main/java/com/developermaker/images/dress.png");
-        JLabel lb1 = new JLabel(icon);
-        add(lb1);
+        // 버튼 패널
+        JPanel buttonPanel = new JPanel();
+        JButton leftButton = new JButton("◀");
+        JButton rightButton = new JButton("▶");
 
-        setSize(500, 500); // 프레임의 크기를 설정
+        // 버튼 이벤트 설정
+        leftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex - 1 + imagePaths.length) % imagePaths.length;
+                updateImage();
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentIndex = (currentIndex + 1) % imagePaths.length;
+                updateImage();
+            }
+        });
+
+        buttonPanel.add(leftButton);
+        buttonPanel.add(rightButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        setSize(500, 500);
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        Carousel frame = new Carousel();
+    private void updateImage() {
+        File file = new File(imagePaths[currentIndex]);
+//        System.out.println("Checking file: " + file.getAbsolutePath());
+//        System.out.println("File exists: " + file.exists());
+        if (file.exists()) {
+            ImageIcon icon = new ImageIcon(imagePaths[currentIndex]);
+            imageLabel.setIcon(icon);
+        } else {
+            imageLabel.setText("이미지를 찾을 수 없습니다.");
+            imageLabel.setIcon(null);
+        }
     }
+
+//    public void printNickname(User user) {
+//        System.out.println("현재 사용자의 닉네임: " + user.getNickname());
+//    }
+
+//    public static void main(String[] args) {
+//
+//        Carousel frame = new Carousel();
+//
+//
+//
+//
+//    }
 }
