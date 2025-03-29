@@ -33,7 +33,7 @@ class Study extends BaseScenario {
             ))
     };
 
-    @Override protected String getScene() { return "📖 당신의 이야기 시작됩니다..."; }
+    @Override protected String getScene() { return "📖 당신의 이야기가 시작됩니다..."; }
     @Override protected String[] getTexts() { return texts; }
     @Override protected String[] getChoices() { return choices; }
     @Override protected Result[] getResults() { return results; }
