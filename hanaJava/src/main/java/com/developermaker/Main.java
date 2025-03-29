@@ -10,11 +10,13 @@ public class Main {
         Study study = new Study();
         Alarm alarm = new Alarm();
         WakeUp wakeUp = new WakeUp();
+        Dress dress = new Dress();
 
         // 실행 메서드
         start.play(sc);
         study.play(sc);
         alarm.play(sc);
         wakeUp.play(sc);
+        dress.play(sc);
     }
 }

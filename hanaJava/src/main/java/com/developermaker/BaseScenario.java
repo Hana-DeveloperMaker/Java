@@ -48,19 +48,23 @@ abstract class BaseScenario {
                 choice = sc.nextInt();
 
                 if (choice >= 1 && choice <= choicesList.size()) {
-                    if (isRandomChoice() && choice == correctIndex) {
-                        System.out.println("✅ " + getResults()[0]); // 성공
-                        break;
-                    } else if (isRandomChoice()) {
-                        System.out.println("❌ " + getResults()[1]); // 실패
-                    } else {
-                        System.out.println("\n" + "═".repeat(60));
-                        System.out.println("🔮 당신의 선택 결과는...");
-                        System.out.println("═".repeat(60) + "\n");
-                        Thread.sleep(500);
-                        System.out.println("✅ " + getResults()[choice - 1]);
-                        break;
+                    if (getResults().length > 0) {  // 결과가 있을 경우만 출력
+                        if (isRandomChoice() && choice == correctIndex) {
+                            System.out.println("✅ " + getResults()[0]);
+                            break;
+                        } else if (isRandomChoice()) {
+                            System.out.println("❌ " + getResults()[1]);
+                        } else {
+                            System.out.println("\n" + "═".repeat(60));
+                            System.out.println("🔮 당신의 선택 결과는...");
+                            System.out.println("═".repeat(60) + "\n");
+                            Thread.sleep(500);
+                            System.out.println("✅ " + getResults()[choice - 1]);
+                            break;
+                        }
                     }
+                    else
+                        break;
                 } else {
                     System.out.println("⚠️ 잘못된 입력입니다. 1~" + choicesList.size() + " 사이의 숫자를 입력하세요.");
                 }
