@@ -20,7 +20,7 @@ public class Carousel extends JFrame {
         contentPane.add(new JButton("Java"));
         contentPane.add(new JButton("Python"));
         contentPane.add(new JButton("C"));
-        ImageIcon icon = new ImageIcon(getClass().getResource("breakfast.png"));
+        ImageIcon icon = new ImageIcon("src/main/java/com/developermaker/images/dress.png");
         JLabel lb1 = new JLabel(icon);
         add(lb1);
 
