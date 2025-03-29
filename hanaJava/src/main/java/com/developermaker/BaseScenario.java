@@ -13,10 +13,14 @@ abstract class BaseScenario {
     protected abstract Result[] getResults();
     protected abstract boolean isRandomChoice();
 
-    public void play(Scanner sc, User user) throws InterruptedException {
+    public void print(String scene) {
         System.out.println("\n" + "═".repeat(60));
-        System.out.println(getScene());
+        System.out.println(scene);
         System.out.println("═".repeat(60) + "\n");
+    }
+
+    public void play(Scanner sc, User user) throws InterruptedException {
+        print(getScene());
         Thread.sleep(1500);
 
         // 스토리 출력
@@ -26,9 +30,7 @@ abstract class BaseScenario {
         }
 
         // 선택지 출력
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println("🎯 당신의 선택은?");
-        System.out.println("═".repeat(60) + "\n");
+        print("🎯 당신의 선택은?");
 
         List<String> choicesList = new ArrayList<>(Arrays.asList(getChoices()));
 
@@ -61,9 +63,7 @@ abstract class BaseScenario {
                             System.out.println("❌ " + getResults()[1].getMessage());
                         } else {
                             Result result = getResults()[choice - 1];
-                            System.out.println("\n" + "═".repeat(60));
-                            System.out.println("🔮 당신의 선택 결과는...");
-                            System.out.println("═".repeat(60) + "\n");
+                            print("🔮 당신의 선택 결과는...");
                             Thread.sleep(500);
                             System.out.println("✅ " + result.getMessage());
                             // 점수 업데이트 및 저장
