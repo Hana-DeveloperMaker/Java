@@ -6,7 +6,7 @@ import com.developermaker.utils.JsonUtil;
 import java.util.Scanner;
 
 public class Start {
-    public void play(Scanner sc) throws Exception {
+    public User play(Scanner sc) throws Exception {
 
         System.out.println("\n" + "═".repeat(60));
         System.out.println("           🚀 개발자 키우기에 오신 여러분 환영합니다! 🚀");
@@ -31,5 +31,7 @@ public class Start {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return user;
     }
 }

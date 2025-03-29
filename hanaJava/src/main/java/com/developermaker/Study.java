@@ -1,5 +1,10 @@
 package com.developermaker;
 
+import com.developermaker.entity.Result;
+import com.developermaker.entity.ScoreType;
+
+import java.util.Map;
+
 class Study extends BaseScenario {
     private final String[] texts = {
             "내일 드디어 하나금융TI 최종 면접이다! 면접 준비를 더 할까, 쉴까?",
@@ -13,15 +18,24 @@ class Study extends BaseScenario {
             "친구가 최고지! 친구 고민상담 들어준다",
             "아 몰라... 그냥 쉰다"
     };
-    private final String[] results = {
-            "좀 정리가 되는 것 같아",
-            "친구: 아니 글쎄 여자친구가 .... ....",
-            "잠도 안오는데 유튜브나 봐야겠다 ~"
+    private final Result[] results = {
+            new Result("좀 정리가 되는 것 같아", Map.of(
+                    ScoreType.PASSION, 10,
+                    ScoreType.EXCELLENCE, 10
+            )),
+            new Result("친구: 아니 글쎄 여자친구가 .... ....", Map.of(
+                    ScoreType.OPENNESS, 10,
+                    ScoreType.RESPECT, 10
+            )),
+            new Result("잠도 안오는데 유튜브나 봐야겠다 ~", Map.of(
+                    ScoreType.PASSION, -5,
+                    ScoreType.RESPECT, -5
+            ))
     };
 
     @Override protected String getScene() { return "📖 당신의 이야기 시작됩니다..."; }
     @Override protected String[] getTexts() { return texts; }
     @Override protected String[] getChoices() { return choices; }
-    @Override protected String[] getResults() { return results; }
+    @Override protected Result[] getResults() { return results; }
     @Override protected boolean isRandomChoice() { return false; }
 }

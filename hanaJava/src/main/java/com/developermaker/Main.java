@@ -1,5 +1,7 @@
 package com.developermaker;
 
+import com.developermaker.entity.User;
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,10 +15,10 @@ public class Main {
         Dress dress = new Dress();
 
         // 실행 메서드
-        start.play(sc);
-        study.play(sc);
-        alarm.play(sc);
-        wakeUp.play(sc);
-        dress.play(sc);
+        User user = start.play(sc);
+        study.play(sc, user);
+        alarm.play(sc, user);
+        wakeUp.play(sc, user);
+        dress.play(sc, user);
     }
 }

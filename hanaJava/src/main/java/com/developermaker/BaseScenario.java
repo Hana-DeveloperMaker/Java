@@ -1,15 +1,19 @@
 package com.developermaker;
 
+import com.developermaker.entity.Result;
+import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
+
 import java.util.*;
 
 abstract class BaseScenario {
     protected abstract String getScene();
     protected abstract String[] getTexts();
     protected abstract String[] getChoices();
-    protected abstract String[] getResults();
+    protected abstract Result[] getResults();
     protected abstract boolean isRandomChoice();
 
-    public void play(Scanner sc) throws InterruptedException {
+    public void play(Scanner sc, User user) throws InterruptedException {
         System.out.println("\n" + "═".repeat(60));
         System.out.println(getScene());
         System.out.println("═".repeat(60) + "\n");
@@ -46,20 +50,30 @@ abstract class BaseScenario {
             System.out.print("\n🎤 선택 > ");
             try {
                 choice = sc.nextInt();
+                sc.nextLine(); // 입력 버퍼 비우기
 
                 if (choice >= 1 && choice <= choicesList.size()) {
                     if (getResults().length > 0) {  // 결과가 있을 경우만 출력
                         if (isRandomChoice() && choice == correctIndex) {
-                            System.out.println("✅ " + getResults()[0]);
+                            System.out.println("✅ " + getResults()[0].getMessage());
                             break;
                         } else if (isRandomChoice()) {
-                            System.out.println("❌ " + getResults()[1]);
+                            System.out.println("❌ " + getResults()[1].getMessage());
                         } else {
+                            Result result = getResults()[choice - 1];
                             System.out.println("\n" + "═".repeat(60));
                             System.out.println("🔮 당신의 선택 결과는...");
                             System.out.println("═".repeat(60) + "\n");
                             Thread.sleep(500);
-                            System.out.println("✅ " + getResults()[choice - 1]);
+                            System.out.println("✅ " + result.getMessage());
+                            // 점수 업데이트 및 저장
+                            try {
+                                boolean updateSuccess = JsonUtil.setUserScore(user.getNickname(), result.getScoreMap());
+                                if (!updateSuccess)
+                                    System.out.println("⚠️ 점수 업데이트에 실패했습니다. 닉네임을 확인해주세요.");
+                            } catch (Exception e) {
+                                System.out.println("⚠️ 점수 업데이트 중 오류가 발생했습니다: " + e.getMessage());
+                            }
                             break;
                         }
                     }
@@ -77,4 +91,3 @@ abstract class BaseScenario {
         Thread.sleep(1500);
     }
 }
-

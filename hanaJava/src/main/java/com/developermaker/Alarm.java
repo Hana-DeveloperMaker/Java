@@ -1,5 +1,7 @@
 package com.developermaker;
 
+import com.developermaker.entity.Result;
+
 class Alarm extends BaseScenario {
     private final String[] texts = {
             "띠디디디-... 띠디디디-....",
@@ -8,14 +10,14 @@ class Alarm extends BaseScenario {
             "진짜 알람 시계를 찾아 알람을 꺼주세요!"
     };
     private final String[] choices = { "🕰", "⏰", "⌚", "🕖" };
-    private final String[] results = {
-            "진짜 시계를 찾았다!",  // 성공
-            "흠.. 이건 아닌 것 같아" // 실패
+    private final Result[] results = {
+            new Result("진짜 시계를 찾았다!"),      // 성공
+            new Result("흠.. 이건 아닌 것 같아"),   // 실패
     };
 
     @Override protected String getScene() { return "☀️ 다음 날..."; }
     @Override protected String[] getTexts() { return texts; }
     @Override protected String[] getChoices() { return choices; }
-    @Override protected String[] getResults() { return results; }
+    @Override protected Result[] getResults() { return results; }
     @Override protected boolean isRandomChoice() { return true; }
 }
