@@ -19,7 +19,6 @@ public class Main {
         Grandma grandma = new Grandma();
         // TODO : 복장에 따른 면접 질문 생성
         Interview interview = new Interview();
-        // TODO : User의 scoreList에 따른 결과 차별화 필요
         InterviewResult interviewResult = new InterviewResult();
         // 실행 메서드
         User user = start.play(sc);
