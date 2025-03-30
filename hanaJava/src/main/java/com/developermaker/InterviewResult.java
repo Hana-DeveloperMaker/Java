@@ -95,22 +95,11 @@ public class InterviewResult extends JFrame {
     }
 
     private boolean isPassed(User user) {
-        System.out.println(user);
-        System.out.println("📊 [점수 상세 출력]");
-
-        for (Map.Entry<ScoreType, Integer> entry : user.getScores().entrySet()) {
-            System.out.println(" - " + entry.getKey() + ": " + entry.getValue());
-        }
-
-        int total = user.getScores()
+        return user.getScores()
                 .values()
                 .stream()
                 .mapToInt(Integer::intValue)
-                .sum();
-
-        System.out.println("총점은 " + total);
-
-        return total >= 50;
+                .sum() >= 50;
     }
 
 }
