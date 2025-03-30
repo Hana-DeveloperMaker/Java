@@ -1,16 +1,16 @@
 package com.developermaker.utils;
 
 import com.developermaker.entity.Result;
-import com.developermaker.entity.User;
 import com.developermaker.entity.ScoreType;
+import com.developermaker.entity.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.EnumMap;
 
 public class JsonUtil {
     private static final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
@@ -29,7 +29,8 @@ public class JsonUtil {
             return new HashMap<>();
         }
 
-        Map<String, User> users = mapper.readValue(file, new TypeReference<>() {});
+        Map<String, User> users = mapper.readValue(file, new TypeReference<>() {
+        });
 
         // JSON에서 로드할 때 scores를 EnumMap으로 변환
         for (User user : users.values()) {
@@ -57,11 +58,14 @@ public class JsonUtil {
     }
 
     // 특정 유저의 점수 추가 후 업데이트
-    public static boolean setUserScore(String nickname, Result result) throws Exception {
+    public static boolean setUserScore(User user, Result result) throws Exception {
         Map<String, User> users = loadUsers();
 
-        User user = users.get(nickname);
-        if (user == null) {
+//        User user = users.get(nickname);
+//        if(user ==null){
+//            return false;
+//        }
+        if (user.equals(users.get(user.getNickname()))) {
             return false; // 사용자 없음
         }
 
