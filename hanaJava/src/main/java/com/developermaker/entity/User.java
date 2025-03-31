@@ -10,7 +10,8 @@ public class User {
     private Map<ScoreType, Integer> scores;
     private List<Result> scoreList;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String nickname) {
         this.nickname = nickname;
@@ -25,23 +26,61 @@ public class User {
         }
     }
 
-    public String getNickname() { return nickname; }
-    public Map<ScoreType, Integer> getScores() { return scores; }
-    public List<Result> getScoreList() { return scoreList; }
+    public String getNickname() {
+        return nickname;
+    }
 
-    public void setNickname(String nickname) { this.nickname = nickname; }
-    public void setScores(Map<ScoreType, Integer> scores) { this.scores = new EnumMap<>(scores); }  // 새로운 Map을 받아와 기존 EnumMap에 반영
+    public Map<ScoreType, Integer> getScores() {
+        return scores;
+    }
+
+    public List<Result> getScoreList() {
+        return scoreList;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setScores(Map<ScoreType, Integer> scores) {
+        this.scores = new EnumMap<>(scores);
+    }  // 새로운 Map을 받아와 기존 EnumMap에 반영
+
     public void updateScores(Result result) {
         scoreList.add(result);
         for (Map.Entry<ScoreType, Integer> entry : result.getScores().entrySet()) {
             scores.put(entry.getKey(), scores.getOrDefault(entry.getKey(), 0) + entry.getValue());
         }
     }
-    public void setScoreList(List<Result> scoreList) { this.scoreList = scoreList; }
+
+    public void setScoreList(List<Result> scoreList) {
+        this.scoreList = scoreList;
+    }
 
     @Override
     public String toString() {
-        return "User{nickname='" + nickname + "'}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("User{").append("nickname='").append(nickname).append("',\n");
+
+        sb.append("  scores={\n");
+        for (Map.Entry<ScoreType, Integer> entry : scores.entrySet()) {
+            sb.append("    ").append(entry.getKey()).append(": ").append(entry.getValue()).append(",\n");
+        }
+        sb.append("  },\n");
+
+        sb.append("  scoreList=[\n");
+        for (Result result : scoreList) {
+            sb.append("    {\n");
+            sb.append("      imgName: ").append(result.getImgName()).append(",\n");
+            sb.append("      message: ").append(result.getMessage()).append(",\n");
+            sb.append("      scores: ").append(result.getScores()).append("\n");
+            sb.append("    },\n");
+        }
+        sb.append("  ]\n");
+
+        sb.append("}");
+        return sb.toString();
     }
+
 }
 
