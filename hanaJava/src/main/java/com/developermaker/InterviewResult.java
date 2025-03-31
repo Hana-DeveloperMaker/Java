@@ -23,7 +23,6 @@ public class InterviewResult extends JFrame {
         setLocationRelativeTo(null);
         setUndecorated(true);
 
-
         JPanel outerPanel = new JPanel();
         outerPanel.setBackground(Color.GRAY);
         outerPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));

@@ -1,11 +1,14 @@
 package com.developermaker.utils;
 
+import com.developermaker.entity.Result;
+import com.developermaker.entity.ScoreType;
 import com.developermaker.entity.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,24 +29,50 @@ public class JsonUtil {
             return new HashMap<>();
         }
 
-        return mapper.readValue(file, new TypeReference<>() {});
+        Map<String, User> users = mapper.readValue(file, new TypeReference<>() {
+        });
+
+        // JSON에서 로드할 때 scores를 EnumMap으로 변환
+        for (User user : users.values()) {
+            Map<ScoreType, Integer> fixedScores = new EnumMap<>(ScoreType.class);
+            for (ScoreType type : ScoreType.values()) {
+                fixedScores.put(type, user.getScores().getOrDefault(type, 0));
+            }
+            user.setScores(fixedScores);
+        }
+
+        return users;
     }
 
-
     // 닉네임 저장 (중복 시 false)
-    public static boolean saveUser(User user) throws Exception {
+    public static void saveUser(User user) throws Exception {
         Map<String, User> users = loadUsers();
-        if (users.containsKey(user.getNickname())) {
-            return false; // 닉네임 중복
-        }
         users.put(user.getNickname(), user);
         mapper.writeValue(new File(FILE_PATH), users);
-        return true;
     }
 
     // 닉네임 중복 여부 확인
     public static boolean isNicknameTaken(String nickname) throws Exception {
         Map<String, User> users = loadUsers();
         return users.containsKey(nickname);
+    }
+
+    // 특정 유저의 점수 추가 후 업데이트
+    public static boolean setUserScore(User user, Result result) throws Exception {
+        Map<String, User> users = loadUsers();
+
+//        User user = users.get(nickname);
+//        if(user ==null){
+//            return false;
+//        }
+        if (user.equals(users.get(user.getNickname()))) {
+            return false; // 사용자 없음
+        }
+
+        user.updateScores(result);
+
+        // 파일에 저장
+        mapper.writeValue(new File(FILE_PATH), users);
+        return true;
     }
 }
