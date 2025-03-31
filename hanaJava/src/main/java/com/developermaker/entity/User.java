@@ -9,6 +9,7 @@ public class User {
     private String nickname;
     private Map<ScoreType, Integer> scores;
     private List<Result> scoreList;
+    private int dressCode;
 
     public User() {
     }
@@ -55,6 +56,14 @@ public class User {
 
     public void setScoreList(List<Result> scoreList) {
         this.scoreList = scoreList;
+    }
+
+    public int getDressCode() {
+        return dressCode;
+    }
+
+    public void setDressCode(int dressCode) {
+        this.dressCode = dressCode;
     }
 
     @Override
