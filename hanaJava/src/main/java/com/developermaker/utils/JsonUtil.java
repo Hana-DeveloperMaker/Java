@@ -61,15 +61,12 @@ public class JsonUtil {
     public static boolean setUserScore(User user, Result result) throws Exception {
         Map<String, User> users = loadUsers();
 
-//        User user = users.get(nickname);
-//        if(user ==null){
-//            return false;
-//        }
-        if (user.equals(users.get(user.getNickname()))) {
+        User storedUser = users.get(user.getNickname());
+        if (storedUser == null) {
             return false; // 사용자 없음
         }
 
-        user.updateScores(result);
+        storedUser.updateScores(result);
 
         // 파일에 저장
         mapper.writeValue(new File(FILE_PATH), users);
