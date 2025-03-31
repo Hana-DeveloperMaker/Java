@@ -52,7 +52,7 @@ abstract class BaseScenario {
             System.out.print("\n🎤 선택 > ");
             try {
                 choice = sc.nextInt();
-                sc.nextLine(); // 입력 버퍼 비우기
+//                sc.nextLine(); // 입력 버퍼 비우기
 
                 if (choice >= 1 && choice <= choicesList.size()) {
                     if (getResults().length > 0) {  // 결과가 있을 경우만 출력
