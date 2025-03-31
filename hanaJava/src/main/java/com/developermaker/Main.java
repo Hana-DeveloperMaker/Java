@@ -43,5 +43,12 @@ public class Main {
                 }
             });
         });
+        transport.play(sc, user);
+        grandma.play(sc, user);
+        interview.play(sc, user);
+        interviewResult.play(user);
+
+        Carousel carousel = new Carousel(user);
+//        carousel.printNickname(user);
     }
 }
