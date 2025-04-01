@@ -1,48 +1,36 @@
 package com.developermaker;
-import com.developermaker.entity.Result;
 
+import com.developermaker.entity.Result;
+import com.developermaker.entity.User;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-
-import com.developermaker.entity.User;
-import com.developermaker.entity.Result;
-import com.developermaker.utils.JsonUtil;
 import java.util.ArrayList;
-
 import java.util.List;
-import java.util.Map;
 
 public class Carousel extends JFrame {
     private JLabel imageLabel;
     private int currentIndex = 0;
     private List<String> imagePaths;
-//    private String[] imagePaths = {
-//            "src/main/java/com/developermaker/images/dress.png",
-//            "src/main/java/com/developermaker/images/wakeUpResult1.png",
-//            "src/main/java/com/developermaker/images/img_happy.png"
-//    };
-    public Carousel(User user){
+
+    public Carousel(User user) {
         imagePaths = new ArrayList<>();
         List<Result> scoreList = user.getScoreList();
 
-        for (Result result: scoreList) {
+        for (Result result : scoreList) {
             String imgName = result.getImgName();
-//            System.out.println(result.getImgName());
             imagePaths.add("src/main/java/com/developermaker/images/" + imgName + ".png");
         }
 
         setTitle("나의 오늘 하루 되돌아보기🔍");
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // 이미지 라벨 생성
         imageLabel = new JLabel();
-        updateImage();  // 첫 번째 이미지 로드
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setPreferredSize(new Dimension(400, 400)); // 기본 크기 설정
         add(imageLabel, BorderLayout.CENTER);
 
         // 버튼 패널
@@ -51,17 +39,15 @@ public class Carousel extends JFrame {
         JButton rightButton = new JButton("▶");
 
         // 버튼 이벤트 설정
-        leftButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        leftButton.addActionListener((ActionEvent e) -> {
+            if (!imagePaths.isEmpty()) {
                 currentIndex = (currentIndex - 1 + imagePaths.size()) % imagePaths.size();
                 updateImage();
             }
         });
 
-        rightButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        rightButton.addActionListener((ActionEvent e) -> {
+            if (!imagePaths.isEmpty()) {
                 currentIndex = (currentIndex + 1) % imagePaths.size();
                 updateImage();
             }
@@ -73,16 +59,33 @@ public class Carousel extends JFrame {
 
         setSize(500, 500);
         setVisible(true);
+
+        // 이미지 로드는 UI가 그려진 이후 실행
+        SwingUtilities.invokeLater(this::updateImage);
     }
+
     private void updateImage() {
+        if (imagePaths.isEmpty()) {
+            imageLabel.setText("보여줄 이미지가 없습니다.");
+            imageLabel.setIcon(null);
+            return;
+        }
+
         String path = imagePaths.get(currentIndex);
         File file = new File(path);
         if (file.exists()) {
             ImageIcon originalIcon = new ImageIcon(path);
 
+            int width = imageLabel.getWidth();
+            int height = imageLabel.getHeight();
+            if (width <= 0 || height <= 0) {
+                width = 400;
+                height = 400;
+            }
+
             // 이미지 리사이징
             Image scaledImage = originalIcon.getImage().getScaledInstance(
-                    imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH
+                    width, height, Image.SCALE_SMOOTH
             );
 
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -94,16 +97,7 @@ public class Carousel extends JFrame {
         }
     }
 
-//    public void printNickname(User user) {
-//        System.out.println("현재 사용자의 닉네임: " + user.getNickname());
-//    }
-
-//    public static void main(String[] args) {
-//
-//        Carousel frame = new Carousel();
-//
-//
-//
-//
-//    }
+    public void printNickname(User user) {
+        System.out.println("현재 사용자의 닉네임: " + user.getNickname());
+    }
 }

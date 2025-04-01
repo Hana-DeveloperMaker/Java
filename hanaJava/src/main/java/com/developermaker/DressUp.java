@@ -56,7 +56,7 @@ public class DressUp extends JFrame {
         g2.dispose();
 
         try {
-            File output = new File("src/main/java/com/developermaker/resources/outfit_result.png");
+            File output = new File("src/main/java/com/developermaker/images/outfit.png");
             ImageIO.write(image, "png", output);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -253,11 +253,11 @@ public class DressUp extends JFrame {
             Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
             scoreMap.put(ScoreType.WITH_CUSTOMER, 5);
             scoreMap.put(ScoreType.EXCELLENCE, 5);
-            resultObj = new Result("outfit1", "정장", scoreMap);
+            resultObj = new Result("outfit", "정장", scoreMap);
         } else if (top.equals("top4") && bottom.equals("bottom1") && shoes.equals("shoes1")) {
             Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
             scoreMap.put(ScoreType.OPENNESS, 5);
-            resultObj = new Result("outfit2", "추리닝", scoreMap);
+            resultObj = new Result("outfit", "추리닝", scoreMap);
         }
 
         if (resultObj != null) {
