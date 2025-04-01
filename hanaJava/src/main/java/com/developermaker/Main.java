@@ -2,6 +2,7 @@ package com.developermaker;
 
 import com.developermaker.entity.User;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Main {
@@ -26,9 +27,28 @@ public class Main {
         alarm.play(sc, user);
         wakeUp.play(sc, user);
         dress.play(sc, user);
+        SwingUtilities.invokeLater(() -> {
+            DressUp dressUp = new DressUp(user);
+            dressUp.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    try {
+                        transport.play(sc, user);
+                        grandma.play(sc, user);
+                        interview.play(sc, user);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    interviewResult.play(user);
+                }
+            });
+        });
         transport.play(sc, user);
         grandma.play(sc, user);
         interview.play(sc, user);
         interviewResult.play(user);
+
+        Carousel carousel = new Carousel(user);
+//        carousel.printNickname(user);
     }
 }
