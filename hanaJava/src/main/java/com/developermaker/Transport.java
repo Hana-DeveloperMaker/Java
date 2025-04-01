@@ -47,12 +47,20 @@ public class Transport extends BaseScenario {
 
     private void easterEgg(User user) {
         print("???: 예끼 이놈아! 공공장소에 누가 그런 차림으로 다녀?! 당장 나가!!");
+        User refreshedUser = null;
         try {
-            new Carousel(JsonUtil.loadUserByNickname((user.getNickname())));
+            refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
+            Carousel carousel = new Carousel();
+            carousel.play(refreshedUser);
+            carousel.printNickname(refreshedUser);
         } catch (Exception e) {
-            System.out.println("asdfsadfsadf");
             throw new RuntimeException(e);
         }
-        System.exit(0);
+//        System.exit(0);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
