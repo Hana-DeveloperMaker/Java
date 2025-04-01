@@ -40,3 +40,5 @@ build/
 
 ### 사용자 json 저장 디렉토리 ###
 data/
+
+src/main/java/com/developermaker/images/outfit.png
