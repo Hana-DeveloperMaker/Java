@@ -2,71 +2,107 @@ package com.developermaker;
 
 import com.developermaker.entity.Result;
 import com.developermaker.entity.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import com.developermaker.utils.JsonUtil;
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 
 public class Carousel extends JFrame {
     private JLabel imageLabel;
     private int currentIndex = 0;
     private List<String> imagePaths;
 
-    public Carousel(User user) {
-        imagePaths = new ArrayList<>();
-        List<Result> scoreList = user.getScoreList();
+    public void play(User user) throws InterruptedException {
+        printIntro();
 
-        for (Result result : scoreList) {
-            String imgName = result.getImgName();
-            imagePaths.add("src/main/java/com/developermaker/images/" + imgName + ".png");
+        setupFrame();
+        loadImages(user);
+        if (imagePaths.isEmpty()) {
+            showNoImagesMessage();
+            return;
         }
 
-        setTitle("나의 오늘 하루 되돌아보기🔍");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        JPanel imagePanel = createImagePanel();
+        JPanel buttonPanel = createButtonPanel();
 
-        // 이미지 라벨 생성
-        imageLabel = new JLabel();
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setPreferredSize(new Dimension(400, 400)); // 기본 크기 설정
-        add(imageLabel, BorderLayout.CENTER);
-
-        // 버튼 패널
-        JPanel buttonPanel = new JPanel();
-        JButton leftButton = new JButton("◀");
-        JButton rightButton = new JButton("▶");
-
-        // 버튼 이벤트 설정
-        leftButton.addActionListener((ActionEvent e) -> {
-            if (!imagePaths.isEmpty()) {
-                currentIndex = (currentIndex - 1 + imagePaths.size()) % imagePaths.size();
-                updateImage();
-            }
-        });
-
-        rightButton.addActionListener((ActionEvent e) -> {
-            if (!imagePaths.isEmpty()) {
-                currentIndex = (currentIndex + 1) % imagePaths.size();
-                updateImage();
-            }
-        });
-
-        buttonPanel.add(leftButton);
-        buttonPanel.add(rightButton);
+        add(imagePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        setSize(500, 500);
         setVisible(true);
-
-        // 이미지 로드는 UI가 그려진 이후 실행
         SwingUtilities.invokeLater(this::updateImage);
     }
 
+    // 🧾 초기 인트로 메시지 출력
+    private void printIntro() throws InterruptedException {
+        System.out.println("🌄 당신의 하루를 이미지로 되돌아봅니다...");
+        Thread.sleep(1500);
+    }
+
+    // 🪟 프레임 설정
+    private void setupFrame() {
+        setTitle("나의 오늘 하루 되돌아보기🔍");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        setSize(500, 500);
+        setLocationRelativeTo(null);
+    }
+
+    // 🖼 이미지 리스트 생성
+    private void loadImages(User user) {
+        imagePaths = new ArrayList<>();
+        List<Result> scoreList = user.getScoreList();
+        for (Result result : user.getScoreList()) {
+            String imgName = result.getImgName();
+            System.out.println(imgName);
+            imagePaths.add("src/main/java/com/developermaker/images/" + imgName + ".png");
+        }
+    }
+
+    // 🔁 이미지 라벨과 첫 이미지 세팅
+    private JPanel createImagePanel() {
+        imageLabel = new JLabel();
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setPreferredSize(new Dimension(400, 400));
+        SwingUtilities.invokeLater(() -> updateImage());
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(imageLabel, BorderLayout.CENTER);
+        return panel;
+    }
+
+    // ◀▶ 버튼 생성
+    private JPanel createButtonPanel() {
+        JButton leftButton = new JButton("◀");
+        JButton rightButton = new JButton("▶");
+
+        ActionListener leftAction = e -> {
+            currentIndex = (currentIndex - 1 + imagePaths.size()) % imagePaths.size();
+            updateImage();
+        };
+        ActionListener rightAction = e -> {
+            currentIndex = (currentIndex + 1) % imagePaths.size();
+            updateImage();
+        };
+
+        leftButton.addActionListener(leftAction);
+        rightButton.addActionListener(rightAction);
+
+        JPanel panel = new JPanel();
+        panel.add(leftButton);
+        panel.add(rightButton);
+        return panel;
+    }
+
+    // 이미지 업데이트
     private void updateImage() {
-        if (imagePaths.isEmpty()) {
-            imageLabel.setText("보여줄 이미지가 없습니다.");
+        if (imagePaths == null || imagePaths.isEmpty()) {
+            imageLabel.setText("이미지를 불러올 수 없습니다.");
             imageLabel.setIcon(null);
             return;
         }
@@ -84,9 +120,7 @@ public class Carousel extends JFrame {
             }
 
             // 이미지 리사이징
-            Image scaledImage = originalIcon.getImage().getScaledInstance(
-                    width, height, Image.SCALE_SMOOTH
-            );
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
             ImageIcon scaledIcon = new ImageIcon(scaledImage);
             imageLabel.setText(""); // 텍스트 초기화
@@ -97,6 +131,10 @@ public class Carousel extends JFrame {
         }
     }
 
+    // 이미지 없을 때 처리
+    private void showNoImagesMessage() {
+        JOptionPane.showMessageDialog(this, "표시할 이미지가 없습니다.", "오류", JOptionPane.WARNING_MESSAGE);
+    }
     public void printNickname(User user) {
         System.out.println("현재 사용자의 닉네임: " + user.getNickname());
     }
