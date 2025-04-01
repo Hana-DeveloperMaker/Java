@@ -2,7 +2,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/src/main/java/com/developermaker/images/outfit.png
 ### IntelliJ IDEA ###
 .idea/*
 .idea/modules.xml
@@ -41,3 +40,4 @@ build/
 ### 사용자 json 저장 디렉토리 ###
 data/
 
+/src/main/java/com/developermaker/images/outfit.png
