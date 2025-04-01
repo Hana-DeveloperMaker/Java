@@ -18,7 +18,6 @@ public class Main {
         //  후반부
         Transport transport = new Transport();
         Grandma grandma = new Grandma();
-        // TODO : 복장에 따른 면접 질문 생성
         Interview interview = new Interview();
         InterviewResult interviewResult = new InterviewResult();
         // 실행 메서드
