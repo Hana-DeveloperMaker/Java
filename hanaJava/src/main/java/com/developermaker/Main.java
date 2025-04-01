@@ -41,7 +41,8 @@ public class Main {
                         SwingUtilities.invokeLater(() -> {
                             try {
                                 User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
-                                Carousel carousel = new Carousel(refreshedUser);
+                                Carousel carousel = new Carousel();
+                                carousel.play(refreshedUser);
                                 carousel.printNickname(refreshedUser);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
@@ -54,5 +55,6 @@ public class Main {
             });
         });
 
+//        carousel.printNickname(user);
     }
 }
