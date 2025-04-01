@@ -14,6 +14,7 @@ public class Main {
         Alarm alarm = new Alarm();
         WakeUp wakeUp = new WakeUp();
         Dress dress = new Dress();
+        Carousel carousel = new Carousel();
         //  후반부
         // TODO : 이스터에그 구현
         Transport transport = new Transport();
@@ -39,16 +40,25 @@ public class Main {
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
-                    interviewResult.play(user);
+                    try {
+                        interviewResult.play(user);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        carousel.play(user);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             });
         });
-        transport.play(sc, user);
-        grandma.play(sc, user);
-        interview.play(sc, user);
-        interviewResult.play(user);
+//        transport.play(sc, user);
+//        grandma.play(sc, user);
+//        interview.play(sc, user);
+//        interviewResult.play(user);
 
-        Carousel carousel = new Carousel(user);
+//        Carousel carousel = new Carousel(user);
 //        carousel.printNickname(user);
     }
 }
