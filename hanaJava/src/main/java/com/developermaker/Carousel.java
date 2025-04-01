@@ -65,7 +65,7 @@ public class Carousel extends JFrame {
     private JPanel createImagePanel() {
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        updateImage();
+        SwingUtilities.invokeLater(() -> updateImage());
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(imageLabel, BorderLayout.CENTER);
         return panel;
