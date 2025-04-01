@@ -50,6 +50,7 @@ public class JsonUtil {
         User existing = users.get(user.getNickname());
 
         if (existing != null) {
+            // 1. 점수 누적
             for (Map.Entry<ScoreType, Integer> entry : existing.getScores().entrySet()) {
                 ScoreType type = entry.getKey();
                 int oldScore = entry.getValue();
@@ -57,14 +58,15 @@ public class JsonUtil {
                 user.getScores().put(type, oldScore + newScore);
             }
 
-            var newResults = new java.util.ArrayList<>(user.getScoreList());
-
-            for (Result result : existing.getScoreList()) {
-                if (!newResults.contains(result)) {
-                    newResults.addFirst(result);
+            // 2. 기존 scoreList + 새로운 것만 뒤에 붙이기
+            java.util.List<Result> merged = new java.util.ArrayList<>(existing.getScoreList());
+            for (Result newResult : user.getScoreList()) {
+                if (!merged.contains(newResult)) {
+                    merged.add(newResult); // 순서 보존하며 뒤에 추가
                 }
             }
-            user.setScoreList(newResults);
+
+            user.setScoreList(merged);
         }
 
         users.put(user.getNickname(), user);
@@ -91,5 +93,10 @@ public class JsonUtil {
         // 파일에 저장
         mapper.writeValue(new File(FILE_PATH), users);
         return true;
+    }
+
+    public static User loadUserByNickname(String nickname) throws Exception {
+        Map<String, User> users = loadUsers();
+        return users.get(nickname);
     }
 }

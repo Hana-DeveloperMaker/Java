@@ -5,10 +5,14 @@ import com.developermaker.entity.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import com.developermaker.utils.JsonUtil;
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 
 public class Carousel extends JFrame {
     private JLabel imageLabel;
@@ -32,6 +36,7 @@ public class Carousel extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
 
         setVisible(true);
+        SwingUtilities.invokeLater(this::updateImage);
     }
 
     // 🧾 초기 인트로 메시지 출력
@@ -56,7 +61,6 @@ public class Carousel extends JFrame {
         for (Result result : user.getScoreList()) {
             String imgName = result.getImgName();
             System.out.println(imgName);
-            System.out.println("왜안되는데;;;");
             imagePaths.add("src/main/java/com/developermaker/images/" + imgName + ".png");
         }
     }
@@ -65,6 +69,7 @@ public class Carousel extends JFrame {
     private JPanel createImagePanel() {
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setPreferredSize(new Dimension(400, 400));
         SwingUtilities.invokeLater(() -> updateImage());
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(imageLabel, BorderLayout.CENTER);
@@ -106,10 +111,20 @@ public class Carousel extends JFrame {
         File file = new File(path);
         if (file.exists()) {
             ImageIcon originalIcon = new ImageIcon(path);
-            Image scaledImage = originalIcon.getImage().getScaledInstance(
-                    imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaledImage));
-            imageLabel.setText("");
+
+            int width = imageLabel.getWidth();
+            int height = imageLabel.getHeight();
+            if (width <= 0 || height <= 0) {
+                width = 400;
+                height = 400;
+            }
+
+            // 이미지 리사이징
+            Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            imageLabel.setText(""); // 텍스트 초기화
+            imageLabel.setIcon(scaledIcon);
         } else {
             imageLabel.setText("이미지를 찾을 수 없습니다.");
             imageLabel.setIcon(null);
@@ -119,5 +134,8 @@ public class Carousel extends JFrame {
     // 이미지 없을 때 처리
     private void showNoImagesMessage() {
         JOptionPane.showMessageDialog(this, "표시할 이미지가 없습니다.", "오류", JOptionPane.WARNING_MESSAGE);
+    }
+    public void printNickname(User user) {
+        System.out.println("현재 사용자의 닉네임: " + user.getNickname());
     }
 }

@@ -1,6 +1,7 @@
 package com.developermaker;
 
 import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -14,7 +15,6 @@ public class Main {
         Alarm alarm = new Alarm();
         WakeUp wakeUp = new WakeUp();
         Dress dress = new Dress();
-        Carousel carousel = new Carousel();
         //  후반부
         // TODO : 이스터에그 구현
         Transport transport = new Transport();
@@ -38,28 +38,23 @@ public class Main {
                         grandma.play(sc, user);
                         interview.play(sc, user);
                         interviewResult.play(user);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
-                    }
-//                    try {
-//                        interviewResult.play(user);
-//                    } catch (InterruptedException ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-                    try {
-                        carousel.play(user);
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
+                                Carousel carousel = new Carousel();
+                                carousel.play(refreshedUser);
+                                carousel.printNickname(refreshedUser);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        });
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
             });
         });
-//        transport.play(sc, user);
-//        grandma.play(sc, user);
-//        interview.play(sc, user);
-//        interviewResult.play(user);
-                }
 
-//        Carousel carousel = new Carousel(user);
 //        carousel.printNickname(user);
     }
+}
