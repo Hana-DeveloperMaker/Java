@@ -3,6 +3,8 @@ package com.developermaker;
 import com.developermaker.entity.Result;
 import com.developermaker.entity.ScoreType;
 import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +56,7 @@ public class DressUp extends JFrame {
         g2.dispose();
 
         try {
-            File output = new File("src/main/java/com/developermaker/resources/outfit_result.png");
+            File output = new File("src/main/java/com/developermaker/images/outfit.png");
             ImageIO.write(image, "png", output);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -65,7 +67,7 @@ public class DressUp extends JFrame {
         this.user = user;
         setTitle("\uD83D\uDD2E옷을 입혀볼까");
         setSize(600, 700);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(null);
         setResizable(false);
 
@@ -104,73 +106,7 @@ public class DressUp extends JFrame {
         doneButton.setBorderPainted(false);
         doneButton.setFocusPainted(false);
         doneButton.setToolTipText("Done");
-
-        doneButton.addActionListener(e -> {
-
-            String hair = currentWearing.getOrDefault("hair", "none");
-            String top = currentWearing.get("top");
-            String bottom = currentWearing.get("bottom");
-            String shoes = currentWearing.get("shoes");
-
-            if (top == null || bottom == null || shoes == null) {
-                saveCurrentOutfitImage();
-                dispose();
-                return;
-            }
-
-            if(top.equals("top2")&&bottom.equals("bottom3")&&shoes.equals("shoes4")) {
-                Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
-                scoreMap.put(ScoreType.WITH_CUSTOMER, 5);
-                scoreMap.put(ScoreType.EXCELLENCE, 5);
-                Result resultObj = new Result("outfit1", "정장", scoreMap);
-                user.updateScores(resultObj);
-            } else if(top.equals("top4")&&bottom.equals("bottom1")&&shoes.equals("shoes1")) {
-                Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
-                scoreMap.put(ScoreType.OPENNESS, 5);
-                Result resultObj = new Result("outfit2", "추리닝", scoreMap);
-                user.updateScores(resultObj);
-            }
-
-            int hairGroup = (hair.equals("hair1") || hair.equals("hair3")) ? 1 : 2;
-            int topGroup = (top.equals("top1") || top.equals("top2")) ? 1 : 2;
-            int bottomGroup = (bottom.equals("bottom1") || bottom.equals("bottom2")) ? 1 : 2;
-            int shoesGroup = (shoes.equals("shoes1") || shoes.equals("shoes2")) ? 1 : 2;
-
-            int result = switch (hairGroup) {
-                case 1 -> switch (topGroup) {
-                    case 1 -> switch (bottomGroup) {
-                        case 1 -> (shoesGroup == 1) ? 4 : 3;
-                        case 2 -> (shoesGroup == 1) ? 2 : 1;
-                        default -> 17;
-                    };
-                    case 2 -> switch (bottomGroup) {
-                        case 1 -> (shoesGroup == 1) ? 8 : 7;
-                        case 2 -> (shoesGroup == 1) ? 6 : 5;
-                        default -> 17;
-                    };
-                    default -> 17;
-                };
-                case 2 -> switch (topGroup) {
-                    case 1 -> switch (bottomGroup) {
-                        case 1 -> (shoesGroup == 1) ? 12 : 11;
-                        case 2 -> (shoesGroup == 1) ? 10 : 9;
-                        default -> 17;
-                    };
-                    case 2 -> switch (bottomGroup) {
-                        case 1 -> (shoesGroup == 1) ? 16 : 15;
-                        case 2 -> (shoesGroup == 1) ? 14 : 13;
-                        default -> 17;
-                    };
-                    default -> 17;
-                };
-                default -> 17;
-            };
-
-            user.setDressCode(result);
-            saveCurrentOutfitImage();
-            dispose();
-        });
-
+        doneButton.addActionListener(e -> handleDoneAction());
         add(doneButton);
 
         thumbnailPanel = new JPanel();
@@ -207,6 +143,13 @@ public class DressUp extends JFrame {
             if (currentCategoryIndex < categories.length - 1) {
                 currentCategoryIndex++;
                 updateThumbnails();
+            }
+        });
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                handleDoneAction();
             }
         });
 
@@ -267,18 +210,10 @@ public class DressUp extends JFrame {
     }
 
     private void resetClothes() {
-        hairLabel.setIcon(null);
-        hairLabel.setBounds(0, 0, 0, 0);
-
-        topLabel.setIcon(null);
-        topLabel.setBounds(0, 0, 0, 0);
-
-        bottomLabel.setIcon(null);
-        bottomLabel.setBounds(0, 0, 0, 0);
-
-        shoesLabel.setIcon(null);
-        shoesLabel.setBounds(0, 0, 0, 0);
-
+        hairLabel.setIcon(null); hairLabel.setBounds(0, 0, 0, 0);
+        topLabel.setIcon(null); topLabel.setBounds(0, 0, 0, 0);
+        bottomLabel.setIcon(null); bottomLabel.setBounds(0, 0, 0, 0);
+        shoesLabel.setIcon(null); shoesLabel.setBounds(0, 0, 0, 0);
         currentWearing.clear();
     }
 
@@ -286,20 +221,98 @@ public class DressUp extends JFrame {
         positionMap.put("hair1", new Point(41, -8));
         positionMap.put("hair2", new Point(35, 30));
         positionMap.put("hair3", new Point(59, 35));
-
         positionMap.put("top1", new Point(57, 190));
         positionMap.put("top4", new Point(55, 173));
         positionMap.put("top3", new Point(80, 180));
         positionMap.put("top2", new Point(57, 190));
-
         positionMap.put("bottom1", new Point(49, 233));
         positionMap.put("bottom4", new Point(83, 290));
         positionMap.put("bottom3", new Point(55, 250));
         positionMap.put("bottom2", new Point(65, 284));
-
         positionMap.put("shoes1", new Point(65, 450));
         positionMap.put("shoes2", new Point(70, 430));
         positionMap.put("shoes3", new Point(46, 370));
         positionMap.put("shoes4", new Point(55, 430));
+    }
+
+    private void handleDoneAction() {
+        String hair = currentWearing.getOrDefault("hair", "none");
+        String top = currentWearing.get("top");
+        String bottom = currentWearing.get("bottom");
+        String shoes = currentWearing.get("shoes");
+
+        if (top == null || bottom == null || shoes == null) {
+            saveCurrentOutfitImage();
+            dispose();
+            return;
+        }
+
+        Result resultObj = null;
+
+        if (top.equals("top2") && bottom.equals("bottom3") && shoes.equals("shoes4")) {
+            Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
+            scoreMap.put(ScoreType.WITH_CUSTOMER, 5);
+            scoreMap.put(ScoreType.EXCELLENCE, 5);
+            resultObj = new Result("outfit", "정장", scoreMap);
+        } else if (top.equals("top4") && bottom.equals("bottom1") && shoes.equals("shoes1")) {
+            Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
+            scoreMap.put(ScoreType.OPENNESS, 5);
+            resultObj = new Result("outfit", "추리닝", scoreMap);
+        }
+
+        if (resultObj != null) {
+            user.updateScores(resultObj);
+            try {
+                JsonUtil.setUserScore(user, resultObj);
+                JsonUtil.saveUser(user);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        int hairGroup = (hair.equals("hair1") || hair.equals("hair3")) ? 1 : 2;
+        int topGroup = (top.equals("top1") || top.equals("top2")) ? 1 : 2;
+        int bottomGroup = (bottom.equals("bottom1") || bottom.equals("bottom2")) ? 1 : 2;
+        int shoesGroup = (shoes.equals("shoes1") || shoes.equals("shoes2")) ? 1 : 2;
+
+        int result = switch (hairGroup) {
+            case 1 -> switch (topGroup) {
+                case 1 -> switch (bottomGroup) {
+                    case 1 -> (shoesGroup == 1) ? 4 : 3;
+                    case 2 -> (shoesGroup == 1) ? 2 : 1;
+                    default -> 17;
+                };
+                case 2 -> switch (bottomGroup) {
+                    case 1 -> (shoesGroup == 1) ? 8 : 7;
+                    case 2 -> (shoesGroup == 1) ? 6 : 5;
+                    default -> 17;
+                };
+                default -> 17;
+            };
+            case 2 -> switch (topGroup) {
+                case 1 -> switch (bottomGroup) {
+                    case 1 -> (shoesGroup == 1) ? 12 : 11;
+                    case 2 -> (shoesGroup == 1) ? 10 : 9;
+                    default -> 17;
+                };
+                case 2 -> switch (bottomGroup) {
+                    case 1 -> (shoesGroup == 1) ? 16 : 15;
+                    case 2 -> (shoesGroup == 1) ? 14 : 13;
+                    default -> 17;
+                };
+                default -> 17;
+            };
+            default -> 17;
+        };
+
+        user.setDressCode(result);
+        try {
+            JsonUtil.saveUser(user);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        saveCurrentOutfitImage();
+        dispose();
     }
 }
