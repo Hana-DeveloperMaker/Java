@@ -36,17 +36,13 @@ public class Main {
                         transport.play(sc, user);
                         grandma.play(sc, user);
                         interview.play(sc, user);
+                        interviewResult.play(user);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
-                    interviewResult.play(user);
                 }
             });
         });
-        transport.play(sc, user);
-        grandma.play(sc, user);
-        interview.play(sc, user);
-        interviewResult.play(user);
 
         Carousel carousel = new Carousel(user);
 //        carousel.printNickname(user);
