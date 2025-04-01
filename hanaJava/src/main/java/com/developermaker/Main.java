@@ -16,7 +16,6 @@ public class Main {
         WakeUp wakeUp = new WakeUp();
         Dress dress = new Dress();
         //  후반부
-        // TODO : 이스터에그 구현
         Transport transport = new Transport();
         Grandma grandma = new Grandma();
         // TODO : 복장에 따른 면접 질문 생성
@@ -34,9 +33,11 @@ public class Main {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent e) {
                     try {
-                        transport.play(sc, user);
-                        grandma.play(sc, user);
-                        interview.play(sc, user);
+                        boolean isEasterEgg = transport.play(sc, user, true);
+                        if (isEasterEgg) {
+                            grandma.play(sc, user);
+                            interview.play(sc, user);
+                        }
                         interviewResult.play(user);
                         SwingUtilities.invokeLater(() -> {
                             try {
