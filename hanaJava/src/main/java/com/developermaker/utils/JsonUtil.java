@@ -47,6 +47,26 @@ public class JsonUtil {
     // 닉네임 저장 (중복 시 false)
     public static void saveUser(User user) throws Exception {
         Map<String, User> users = loadUsers();
+        User existing = users.get(user.getNickname());
+
+        if (existing != null) {
+            for (Map.Entry<ScoreType, Integer> entry : existing.getScores().entrySet()) {
+                ScoreType type = entry.getKey();
+                int oldScore = entry.getValue();
+                int newScore = user.getScores().getOrDefault(type, 0);
+                user.getScores().put(type, oldScore + newScore);
+            }
+
+            var newResults = new java.util.ArrayList<>(user.getScoreList());
+
+            for (Result result : existing.getScoreList()) {
+                if (!newResults.contains(result)) {
+                    newResults.addFirst(result);
+                }
+            }
+            user.setScoreList(newResults);
+        }
+
         users.put(user.getNickname(), user);
         mapper.writeValue(new File(FILE_PATH), users);
     }
