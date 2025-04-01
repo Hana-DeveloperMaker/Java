@@ -23,4 +23,18 @@ public class Result {
     public String getImgName() { return imgName; }
     public String getMessage() { return message; }
     public Map<ScoreType, Integer> getScores() { return scores; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Result other)) return false;
+        return imgName.equals(other.imgName)
+                && message.equals(other.message)
+                && scores.equals(other.scores);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(imgName, message, scores);
+    }
 }

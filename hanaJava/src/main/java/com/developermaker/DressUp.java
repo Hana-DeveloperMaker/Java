@@ -3,6 +3,8 @@ package com.developermaker;
 import com.developermaker.entity.Result;
 import com.developermaker.entity.ScoreType;
 import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +108,6 @@ public class DressUp extends JFrame {
         doneButton.setToolTipText("Done");
 
         doneButton.addActionListener(e -> {
-
             String hair = currentWearing.getOrDefault("hair", "none");
             String top = currentWearing.get("top");
             String bottom = currentWearing.get("bottom");
@@ -118,17 +119,27 @@ public class DressUp extends JFrame {
                 return;
             }
 
-            if(top.equals("top2")&&bottom.equals("bottom3")&&shoes.equals("shoes4")) {
+            Result resultObj = null;
+
+            if (top.equals("top2") && bottom.equals("bottom3") && shoes.equals("shoes4")) {
                 Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
                 scoreMap.put(ScoreType.WITH_CUSTOMER, 5);
                 scoreMap.put(ScoreType.EXCELLENCE, 5);
-                Result resultObj = new Result("outfit1", "정장", scoreMap);
-                user.updateScores(resultObj);
-            } else if(top.equals("top4")&&bottom.equals("bottom1")&&shoes.equals("shoes1")) {
+                resultObj = new Result("outfit1", "정장", scoreMap);
+            } else if (top.equals("top4") && bottom.equals("bottom1") && shoes.equals("shoes1")) {
                 Map<ScoreType, Integer> scoreMap = new EnumMap<>(ScoreType.class);
                 scoreMap.put(ScoreType.OPENNESS, 5);
-                Result resultObj = new Result("outfit2", "추리닝", scoreMap);
+                resultObj = new Result("outfit2", "추리닝", scoreMap);
+            }
+
+            if (resultObj != null) {
                 user.updateScores(resultObj);
+                try {
+                    JsonUtil.setUserScore(user, resultObj);
+                    JsonUtil.saveUser(user);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
 
             int hairGroup = (hair.equals("hair1") || hair.equals("hair3")) ? 1 : 2;
@@ -167,6 +178,12 @@ public class DressUp extends JFrame {
             };
 
             user.setDressCode(result);
+            try {
+                JsonUtil.saveUser(user);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
             saveCurrentOutfitImage();
             dispose();
         });
@@ -267,18 +284,10 @@ public class DressUp extends JFrame {
     }
 
     private void resetClothes() {
-        hairLabel.setIcon(null);
-        hairLabel.setBounds(0, 0, 0, 0);
-
-        topLabel.setIcon(null);
-        topLabel.setBounds(0, 0, 0, 0);
-
-        bottomLabel.setIcon(null);
-        bottomLabel.setBounds(0, 0, 0, 0);
-
-        shoesLabel.setIcon(null);
-        shoesLabel.setBounds(0, 0, 0, 0);
-
+        hairLabel.setIcon(null); hairLabel.setBounds(0, 0, 0, 0);
+        topLabel.setIcon(null); topLabel.setBounds(0, 0, 0, 0);
+        bottomLabel.setIcon(null); bottomLabel.setBounds(0, 0, 0, 0);
+        shoesLabel.setIcon(null); shoesLabel.setBounds(0, 0, 0, 0);
         currentWearing.clear();
     }
 
@@ -286,17 +295,14 @@ public class DressUp extends JFrame {
         positionMap.put("hair1", new Point(41, -8));
         positionMap.put("hair2", new Point(35, 30));
         positionMap.put("hair3", new Point(59, 35));
-
         positionMap.put("top1", new Point(57, 190));
         positionMap.put("top4", new Point(55, 173));
         positionMap.put("top3", new Point(80, 180));
         positionMap.put("top2", new Point(57, 190));
-
         positionMap.put("bottom1", new Point(49, 233));
         positionMap.put("bottom4", new Point(83, 290));
         positionMap.put("bottom3", new Point(55, 250));
         positionMap.put("bottom2", new Point(65, 284));
-
         positionMap.put("shoes1", new Point(65, 450));
         positionMap.put("shoes2", new Point(70, 430));
         positionMap.put("shoes3", new Point(46, 370));

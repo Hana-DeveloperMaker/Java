@@ -37,14 +37,15 @@ public class Main {
                         transport.play(sc, user);
                         grandma.play(sc, user);
                         interview.play(sc, user);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    try {
                         interviewResult.play(user);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
+//                    try {
+//                        interviewResult.play(user);
+//                    } catch (InterruptedException ex) {
+//                        throw new RuntimeException(ex);
+//                    }
                     try {
                         carousel.play(user);
                     } catch (InterruptedException ex) {
@@ -57,8 +58,8 @@ public class Main {
 //        grandma.play(sc, user);
 //        interview.play(sc, user);
 //        interviewResult.play(user);
+                }
 
 //        Carousel carousel = new Carousel(user);
 //        carousel.printNickname(user);
     }
-}
