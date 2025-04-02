@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import com.developermaker.utils.JsonUtil;
 
 public class InterviewResult extends JFrame {
 
@@ -23,7 +24,7 @@ public class InterviewResult extends JFrame {
         outerPanel.add(createContentPanel(user, passed), BorderLayout.CENTER);
 
         add(outerPanel);
-        addWindowListener(createWindowCloseHandler(passed));
+        addWindowListener(createWindowCloseHandler(passed, user));
 
         setVisible(true);
     }
@@ -101,7 +102,7 @@ public class InterviewResult extends JFrame {
     }
 
     // 윈도우 종료 이벤트 핸들러 생성
-    private WindowAdapter createWindowCloseHandler(boolean passed) {
+    private WindowAdapter createWindowCloseHandler(boolean passed, User user) {
         return new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -115,6 +116,16 @@ public class InterviewResult extends JFrame {
                 } else {
                     print("😥 으으 또 떨어졌네...");
                 }
+                SwingUtilities.invokeLater(() -> {
+                    try {
+                        User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
+                        Carousel carousel = new Carousel();
+                        carousel.play(refreshedUser);
+                        carousel.printNickname(refreshedUser);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
             }
         };
     }

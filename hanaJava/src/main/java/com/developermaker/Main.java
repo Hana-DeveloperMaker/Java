@@ -38,16 +38,16 @@ public class Main {
                             interview.play(sc, user);
                         }
                         interviewResult.play(user);
-                        SwingUtilities.invokeLater(() -> {
-                            try {
-                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
-                                Carousel carousel = new Carousel();
-                                carousel.play(refreshedUser);
-                                carousel.printNickname(refreshedUser);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        });
+//                        SwingUtilities.invokeLater(() -> {
+//                            try {
+//                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
+//                                Carousel carousel = new Carousel();
+//                                carousel.play(refreshedUser);
+//                                carousel.printNickname(refreshedUser);
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        });
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
