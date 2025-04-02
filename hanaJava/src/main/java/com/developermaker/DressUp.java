@@ -46,7 +46,7 @@ public class DressUp extends JFrame {
         for (String category : drawOrder) {
             String itemKey = currentWearing.get(category);
             if (itemKey != null) {
-                String path = "src/main/java/com/developermaker/resources/" + itemKey + ".png";
+                String path = "src/main/resources/" + itemKey + ".png";
                 ImageIcon icon = new ImageIcon(path);
                 Point pos = positionMap.getOrDefault(itemKey, new Point(0, 0));
                 g2.drawImage(icon.getImage(), pos.x, pos.y, null);
@@ -77,7 +77,7 @@ public class DressUp extends JFrame {
         layeredPane.setBounds(0, 0, 450, 600);
         add(layeredPane);
 
-        ImageIcon baseIcon = new ImageIcon("src/main/java/com/developermaker/resources/person.png");
+        ImageIcon baseIcon = new ImageIcon("src/main/resources/person.png");
         basePersonLabel = new JLabel(baseIcon);
         basePersonLabel.setBounds(40, 30, baseIcon.getIconWidth(), baseIcon.getIconHeight());
         layeredPane.add(basePersonLabel, Integer.valueOf(-100));
@@ -87,7 +87,7 @@ public class DressUp extends JFrame {
         bottomLabel = new JLabel(); bottomLabel.setBounds(0, 0, 0, 0); layeredPane.add(bottomLabel, 30);
         shoesLabel = new JLabel(); shoesLabel.setBounds(0, 0, 0, 0); layeredPane.add(shoesLabel, 40);
 
-        ImageIcon resetIcon = new ImageIcon("src/main/java/com/developermaker/resources/btn_reset.png");
+        ImageIcon resetIcon = new ImageIcon("src/main/resources/btn_reset.png");
         Image scaled = resetIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JButton resetButton = new JButton(new ImageIcon(scaled));
         resetButton.setBounds(130, 530, 30, 30);
@@ -98,7 +98,7 @@ public class DressUp extends JFrame {
         resetButton.addActionListener(e -> resetClothes());
         add(resetButton);
 
-        ImageIcon doneIcon = new ImageIcon("src/main/java/com/developermaker/resources/btn_done.png");
+        ImageIcon doneIcon = new ImageIcon("src/main/resources/btn_done.png");
         Image doneScaled = doneIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         JButton doneButton = new JButton(new ImageIcon(doneScaled));
         doneButton.setBounds(180, 530, 30, 30);
@@ -166,7 +166,7 @@ public class DressUp extends JFrame {
 
         for (int i = 1; i <= itemCount; i++) {
             String key = category + i;
-            String path = "src/main/java/com/developermaker/resources/" + key + ".png";
+            String path = "src/main/resources/" + key + ".png";
 
             ImageIcon icon = new ImageIcon(path);
             Image scaledImage = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
