@@ -60,7 +60,7 @@ public class Carousel extends JFrame {
         List<Result> scoreList = user.getScoreList();
         for (Result result : user.getScoreList()) {
             String imgName = result.getImgName();
-            imagePaths.add("src/main/java/com/developermaker/images/" + imgName + ".png");
+            imagePaths.add("src/main/resources/" + imgName + ".png");
         }
     }
 
