@@ -37,7 +37,7 @@ public class Main {
                             grandma.play(sc, user);
                             interview.play(sc, user);
                         }
-                        interviewResult.play(user);
+                        interviewResult.play(user,isEasterEgg);
 //                        SwingUtilities.invokeLater(() -> {
 //                            try {
 //                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
