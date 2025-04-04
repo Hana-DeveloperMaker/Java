@@ -17,11 +17,11 @@ public class MiniGame extends JFrame implements KeyListener {
         setLocationRelativeTo(null); // 절대 위치 설정
 
         // 사이즈 재조정할 이미지
-        ImageIcon icon = new ImageIcon("src/main/java/com/developermaker/images/walking.gif");
+        ImageIcon icon = new ImageIcon("src/main/resources/walking.gif");
         Image resizedImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
         // 백그라운드 배경
-        backgroundImage = new ImageIcon("src/main/java/com/developermaker/images/background.jpg").getImage();
+        backgroundImage = new ImageIcon("src/main/resources/background.jpg").getImage();
         imageLabel = new JLabel(resizedIcon);
         imageLabel.setBounds(x, y, 100, 100);
 //        add(imageLabel);
