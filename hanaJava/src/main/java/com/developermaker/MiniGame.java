@@ -10,6 +10,26 @@ public class MiniGame extends JFrame implements KeyListener {
     private int x = 100, y = 100;
     private Image backgroundImage;// 이미지 위치
 
+    private void addGameObjects(JPanel backgroundPanel) {
+        addObject(backgroundPanel, "/bed.png", 240, 410, 60, 60);
+        addObject(backgroundPanel, "/building.png", 980, 110, 60, 60);
+        addObject(backgroundPanel, "/bus.png", 820, 160, 60, 30); // 상단 버스
+        addObject(backgroundPanel, "/bus.png", 820, 200, 60, 30); // 하단 버스
+        addObject(backgroundPanel, "/closet.png", 140, 550, 60, 60);
+        addObject(backgroundPanel, "/grandma.png", 510, 450, 70, 70);
+        addObject(backgroundPanel, "/house.png", 20, 40, 60, 60);
+        addObject(backgroundPanel, "/person.png", 990, 60, 60, 60);
+    }
+
+    private void addObject(JPanel panel, String path, int x, int y, int w, int h) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image image = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(new ImageIcon(image));
+        label.setBounds(x, y, w, h);
+        panel.add(label);
+    }
+
+
     public MiniGame() {
         setTitle("방향키로 이미지 이동하기");
         setSize(1100, 800);
@@ -32,6 +52,7 @@ public class MiniGame extends JFrame implements KeyListener {
         };
         backgroundPanel.setLayout(null);
         backgroundPanel.add(imageLabel);
+        addGameObjects(backgroundPanel);
 
         add(backgroundPanel);
         addKeyListener(this); // 키 입력 감지
