@@ -1,18 +1,17 @@
 package com.developermaker;
 
 import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import com.developermaker.utils.JsonUtil;
 
 public class InterviewResult extends JFrame {
 
-    public void play(User user) throws InterruptedException {
+    public void play(User user,boolean isEasterEgg) throws InterruptedException {
         printIntro();
-
         setupFrame();
         JPanel outerPanel = createOuterPanel();
 
@@ -20,7 +19,7 @@ public class InterviewResult extends JFrame {
         outerPanel.add(createTitleBar(), BorderLayout.NORTH);
 
         // 합격 여부에 따른 메시지 처리
-        boolean passed = isPassed(user);
+        boolean passed = isPassed(user, isEasterEgg);
         outerPanel.add(createContentPanel(user, passed), BorderLayout.CENTER);
 
         add(outerPanel);
@@ -131,8 +130,9 @@ public class InterviewResult extends JFrame {
     }
 
     // 합격 여부 결정 (점수 합계가 50 이상이면 합격)
-    private boolean isPassed(User user) {
-        return user.getScores().values().stream().mapToInt(Integer::intValue).sum() >= 50;
+    private boolean isPassed(User user, boolean isEasterEgg) {
+        if (!isEasterEgg) return false;
+        else return user.getScores().values().stream().mapToInt(Integer::intValue).sum() >= 50;
     }
 
     // 콘솔 출력 (테두리 포함)
