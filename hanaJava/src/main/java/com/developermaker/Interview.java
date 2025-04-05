@@ -20,11 +20,11 @@ public class Interview extends BaseScenario {
             "면접도 망한 것 같은데, 빨리 끝내고 싶어... 최종 인사로 마무리 하자.",
     };
     private final Result[] results = {
-            new Result("interviewResult0", "아까 제가 했던 답변을 추가 보완해도 괜찮을까요?\n" + "... ... ...", Map.of(
+            new Result("interview0", "아까 제가 했던 답변을 추가 보완해도 괜찮을까요?\n" + "... ... ...", Map.of(
                     ScoreType.EXCELLENCE, 5,
                     ScoreType.PASSION, 5
             )),
-            new Result("interviewResult1", "뽑아주시면 열심히 하겠습니다!", Map.of(
+            new Result("interview0", "뽑아주시면 열심히 하겠습니다!", Map.of(
                     ScoreType.EXCELLENCE, -5
             )),
     };

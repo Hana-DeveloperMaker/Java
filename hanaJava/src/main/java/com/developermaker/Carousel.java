@@ -15,6 +15,7 @@ public class Carousel extends JFrame {
     private JLabel imageLabel;
     private int currentIndex = 0;
     private List<String> imagePaths;
+    private boolean reachedEnd = false;
 
     public void play(User user, boolean isEnding) throws InterruptedException {
         printIntro();
@@ -56,13 +57,19 @@ public class Carousel extends JFrame {
         imagePaths = new ArrayList<>();
         List<Result> scoreList = user.getScoreList();
         int dressCode = user.getDressCode();
+        boolean isSuccessed = user.getIsSuccessed();
         for (Result result : user.getScoreList()) {
             String imgName = result.getImgName();
             if (!isEnding && imgName.equals("outfit"))
                 continue;
             imagePaths.add("src/main/resources/" + result.getImgName() + ".png");
         }
-        imagePaths.add(imagePaths.size() - 1, "src/main/resources/interviewDialog" + dressCode + ".png");
+        if (imagePaths.size() > 4) {
+            imagePaths.add(imagePaths.size() - 1, "src/main/resources/interviewDialog" + dressCode + ".png");
+        }
+        imagePaths.add("src/main/resources/interviewResult" + (isSuccessed ? "1" : "0") + ".png");
+        if (isSuccessed)imagePaths.add("src/main/resources/success.png");
+        else imagePaths.add("src/main/resources/fail.png");
     }
 
     // 🔁 이미지 라벨과 첫 이미지 세팅
@@ -83,11 +90,29 @@ public class Carousel extends JFrame {
 
         ActionListener leftAction = e -> {
             currentIndex = (currentIndex - 1 + imagePaths.size()) % imagePaths.size();
+            reachedEnd = false;
             updateImage();
         };
         ActionListener rightAction = e -> {
-            currentIndex = (currentIndex + 1) % imagePaths.size();
-            updateImage();
+            if (currentIndex == imagePaths.size() - 1) {
+                if (reachedEnd) {
+                    int response = JOptionPane.showConfirmDialog(
+                            this,
+                            "오늘 하루를 다 돌아봤어요! 게임을 종료할까요?",
+                            "게임 종료",
+                            JOptionPane.YES_NO_OPTION
+                    );
+                    if (response == JOptionPane.YES_OPTION) {
+                        System.out.println("게임을 즐겨 주셔서 감사합니다😊");
+                        dispose();
+                    }
+                } else {
+                    reachedEnd = true;
+                }
+            } else {
+                currentIndex = (currentIndex + 1) % imagePaths.size();
+                updateImage();
+            }
         };
 
         leftButton.addActionListener(leftAction);
