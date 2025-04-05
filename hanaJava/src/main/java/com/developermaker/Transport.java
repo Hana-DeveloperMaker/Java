@@ -10,9 +10,11 @@ import java.util.*;
 public class Transport extends BaseScenario {
     private final String[] texts = {"면접장까지 1시간 반... 이번에 새로 생긴 버스가 빠르다고 한다.", "새롭게 도전해볼까?",};
     private final String[] choices = {"검증되지 않은 노선은 좀.. 안전하게 지하철 타고 가기", "30분이나 빠르다고?! 새로 생긴 버스타고가기",};
-    private final Result[] results = {new Result("transportResult0", "안내 방송: 아- 아.... 현재 차량 고장으로 인해.. 열차가 지연 운행 되고 있습니다...\n" + "뭐라고?! 큰일 났다... 빨리 버스를 타러 가야해 !!", Map.of(ScoreType.WITH_CUSTOMER, 5)), new Result("transportResult1", "새로 생겼다더니 좌석도 너무 편안하고 빨라서 좋다 ~~", Map.of(ScoreType.OPENNESS, 5)),
-            new Result("transportResult2", "???: 예끼 이놈아! 공공장소에 누가 그런 차림으로 다녀?! 당장 나가!!", Map.of(ScoreType.WITH_CUSTOMER, -100)) {
-            }};
+    private final Result[] results = {
+            new Result("transportResult0", "안내 방송: 아- 아.... 현재 차량 고장으로 인해.. 열차가 지연 운행 되고 있습니다...\n" + "뭐라고?! 큰일 났다... 빨리 버스를 타러 가야해 !!", Map.of(ScoreType.WITH_CUSTOMER, 5)),
+            new Result("transportResult1", "새로 생겼다더니 좌석도 너무 편안하고 빨라서 좋다 ~~", Map.of(ScoreType.OPENNESS, 5)),
+            new Result("transportResult2", "???: 예끼 이놈아! 공공장소에 누가 그런 차림으로 다녀?! 당장 나가!!", Map.of(ScoreType.WITH_CUSTOMER, -100))
+    };
 
     @Override
     protected String getScene() {
@@ -39,8 +41,7 @@ public class Transport extends BaseScenario {
         return false;
     }
 
-    public boolean play(Scanner sc, User user, boolean isEasterEgg) throws InterruptedException {
-        isEasterEgg = user.getDressCode() == 0;
+    public void play(Scanner sc, User user, boolean isEasterEgg) throws InterruptedException {
         print(getScene());
         Thread.sleep(1500);
 
@@ -90,7 +91,7 @@ public class Transport extends BaseScenario {
                                 result = getResults()[choice - 1];
                             }
                             print("🔮 당신의 선택 결과는...");
-//                            Thread.sleep(500);
+                            Thread.sleep(500);
                             System.out.println("✅ " + result.getMessage());
                             // 점수 업데이트 및 저장
                             try {
@@ -112,7 +113,6 @@ public class Transport extends BaseScenario {
                 sc.nextLine();
             }
         }
-        return user.getDressCode() != 0;
+        Thread.sleep(1500);
     }
-
 }

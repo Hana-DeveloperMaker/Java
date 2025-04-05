@@ -5,25 +5,22 @@ import com.developermaker.entity.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import com.developermaker.utils.JsonUtil;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Map;
 
 public class Carousel extends JFrame {
     private JLabel imageLabel;
     private int currentIndex = 0;
     private List<String> imagePaths;
 
-    public void play(User user) throws InterruptedException {
+    public void play(User user, boolean isEnding) throws InterruptedException {
         printIntro();
 
         setupFrame();
-        loadImages(user);
+        loadImages(user, isEnding);
         if (imagePaths.isEmpty()) {
             showNoImagesMessage();
             return;
@@ -50,25 +47,29 @@ public class Carousel extends JFrame {
         setTitle("나의 오늘 하루 되돌아보기🔍");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setSize(500, 500);
+        setSize(600, 500);
         setLocationRelativeTo(null);
     }
 
     // 🖼 이미지 리스트 생성
-    private void loadImages(User user) {
+    private void loadImages(User user, boolean isEnding) {
         imagePaths = new ArrayList<>();
         List<Result> scoreList = user.getScoreList();
+        int dressCode = user.getDressCode();
         for (Result result : user.getScoreList()) {
             String imgName = result.getImgName();
-            imagePaths.add("src/main/resources/" + imgName + ".png");
+            if (!isEnding && imgName.equals("outfit"))
+                continue;
+            imagePaths.add("src/main/resources/" + result.getImgName() + ".png");
         }
+        imagePaths.add(imagePaths.size() - 1, "src/main/resources/interviewDialog" + dressCode + ".png");
     }
 
     // 🔁 이미지 라벨과 첫 이미지 세팅
     private JPanel createImagePanel() {
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setPreferredSize(new Dimension(400, 400));
+        imageLabel.setPreferredSize(new Dimension(600, 400));
         SwingUtilities.invokeLater(() -> updateImage());
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(imageLabel, BorderLayout.CENTER);
