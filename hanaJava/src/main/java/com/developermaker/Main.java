@@ -1,7 +1,6 @@
 package com.developermaker;
 
 import com.developermaker.entity.User;
-import com.developermaker.utils.JsonUtil;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -39,23 +38,11 @@ public class Main {
                             interview.play(sc, user);
                         }
                         interviewResult.play(user, isEasterEgg);
-//                        SwingUtilities.invokeLater(() -> {
-//                            try {
-//                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
-//                                Carousel carousel = new Carousel();
-//                                carousel.play(refreshedUser);
-//                                carousel.printNickname(refreshedUser);
-//                            } catch (Exception ex) {
-//                                ex.printStackTrace();
-//                            }
-//                        });
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
             });
         });
-
-//        carousel.printNickname(user);
     }
 }
