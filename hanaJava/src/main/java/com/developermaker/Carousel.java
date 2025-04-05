@@ -5,25 +5,22 @@ import com.developermaker.entity.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import com.developermaker.utils.JsonUtil;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Map;
 
 public class Carousel extends JFrame {
     private JLabel imageLabel;
     private int currentIndex = 0;
     private List<String> imagePaths;
 
-    public void play(User user) throws InterruptedException {
+    public void play(User user, boolean isEnding) throws InterruptedException {
         printIntro();
 
         setupFrame();
-        loadImages(user);
+        loadImages(user, isEnding);
         if (imagePaths.isEmpty()) {
             showNoImagesMessage();
             return;
@@ -55,12 +52,13 @@ public class Carousel extends JFrame {
     }
 
     // 🖼 이미지 리스트 생성
-    private void loadImages(User user) {
+    private void loadImages(User user, boolean isEnding) {
         imagePaths = new ArrayList<>();
-        List<Result> scoreList = user.getScoreList();
         for (Result result : user.getScoreList()) {
             String imgName = result.getImgName();
-            imagePaths.add("src/main/resources/" + imgName + ".png");
+            if (!isEnding && imgName.equals("outfit"))
+                continue;
+            imagePaths.add("src/main/resources/" + result.getImgName() + ".png");
         }
     }
 
