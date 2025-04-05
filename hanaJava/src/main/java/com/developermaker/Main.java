@@ -32,12 +32,13 @@ public class Main {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent e) {
                     try {
-                        boolean isEasterEgg = transport.play(sc, user, true);
-                        if (isEasterEgg) {
+                        boolean isEasterEgg = user.getDressCode() == 0;
+                        transport.play(sc, user, isEasterEgg);
+                        if (!isEasterEgg) {
                             grandma.play(sc, user);
                             interview.play(sc, user);
                         }
-                        interviewResult.play(user,isEasterEgg);
+                        interviewResult.play(user, isEasterEgg);
 //                        SwingUtilities.invokeLater(() -> {
 //                            try {
 //                                User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());

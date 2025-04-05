@@ -16,15 +16,15 @@ public class Interview extends BaseScenario {
             "면접관: 네, 이상으로 면접 모두 마치겠습니다. 혹시 마지막으로 하시고 싶은 말씀 있으실까요?"
     };
     private final String[] choices = {
-            "아까 미쳐 제대로 답변하지 못한 질문에 대한 보완을 하자!",
+            "아까 미처 제대로 답변하지 못한 질문에 대한 보완을 하자!",
             "면접도 망한 것 같은데, 빨리 끝내고 싶어... 최종 인사로 마무리 하자.",
     };
     private final Result[] results = {
-            new Result("transportResult0", "아까 제가 했던 답변을 추가 보완해도 괜찮을까요?\n" + "... ... ...", Map.of(
+            new Result("interviewResult0", "아까 제가 했던 답변을 추가 보완해도 괜찮을까요?\n" + "... ... ...", Map.of(
                     ScoreType.EXCELLENCE, 5,
                     ScoreType.PASSION, 5
             )),
-            new Result("transportResult1", "뽑아주시면 열심히 하겠습니다!", Map.of(
+            new Result("interviewResult1", "뽑아주시면 열심히 하겠습니다!", Map.of(
                     ScoreType.EXCELLENCE, -5
             )),
     };
@@ -38,7 +38,7 @@ public class Interview extends BaseScenario {
             if (i == 1) {
                 System.out.println("📜 " + user.getNickname() + text);
             } else if (i == 2) {
-                String message = "📜 " + switch (user.getDressCode()) {
+                String message = "📜 면접관: " + switch (user.getDressCode()) {
                     case 1 -> "면접 복장을 보니 상당히 프로페셔널한 인상을 주네요. 혹시 이전에도 여러 기업에서 개발자로 일하셨나요?";
                     case 2 -> "실내에서는 편한 신발을 선호하시는 것 같은데, 사무실에서도 이런 복장을 유지하실 생각이신가요?";
                     case 3 -> "상의와 하의의 조합이 독특하네요. 혹시 특정한 이유가 있나요?";
