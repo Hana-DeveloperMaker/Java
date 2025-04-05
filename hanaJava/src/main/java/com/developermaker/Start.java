@@ -18,9 +18,42 @@ public class Start {
         String name = sc.nextLine();
 
         while (JsonUtil.isNicknameTaken(name)) {
-            System.out.println("⚠️ 이미 사용 중인 닉네임입니다. 다른 닉네임을 입력하세요.");
-            System.out.print("📝 사용할 닉네임을 다시 입력해주세요: ");
-            name = sc.nextLine();
+            System.out.println("\n⚠️ 이미 사용 중인 닉네임입니다. 선택해주세요:");
+            System.out.println("🔹 1. 이전 기록 보기");
+            System.out.println("🔹 2. 이전 기록 삭제하고 새로 시작");
+            System.out.println("🔹 3. 다른 닉네임 사용하기");
+            System.out.println("🔹 4. 종료");
+            System.out.print("🎤 선택 > ");
+
+            String input = sc.nextLine();
+
+            switch (input) {
+                case "1" -> {
+                    User existingUser = JsonUtil.loadUserByNickname(name);
+                    if (existingUser != null) {
+                        Carousel carousel = new Carousel();
+                        carousel.play(existingUser, false);
+                        return existingUser;
+                    } else {
+                        System.out.println("\n⚠️ 해당 유저 정보를 찾을 수 없습니다.");
+                    }
+                }
+                case "2" -> {
+                    boolean deleted = JsonUtil.deleteUserByNickname(name);
+                    if (deleted)
+                        System.out.println("\n🗑 기록이 삭제되었습니다. 같은 닉네임으로 새 게임을 시작합니다.");
+                    else
+                        System.out.println("\n⚠️ 삭제에 실패했습니다. 다시 시도해주세요.");
+                }
+                case "3" -> {
+                    System.out.print("\n📝 사용할 닉네임을 다시 입력해주세요: ");
+                    name = sc.nextLine();
+                }
+                case "4" -> {
+                    System.exit(0);
+                }
+                default -> System.out.println("\n⚠️ 잘못된 입력입니다. 1~4 중 하나를 선택해주세요.");
+            }
         }
 
         User user = new User(name);

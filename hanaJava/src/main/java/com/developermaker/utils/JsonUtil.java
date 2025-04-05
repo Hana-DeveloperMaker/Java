@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,17 @@ public class JsonUtil {
                 fixedScores.put(type, user.getScores().getOrDefault(type, 0));
             }
             user.setScores(fixedScores);
+
+            // Result.scores도 EnumMap으로 변환
+            for (Result result : user.getScoreList()) {
+                Map<ScoreType, Integer> fixedResultScores = new EnumMap<>(ScoreType.class);
+                for (Map.Entry<ScoreType, Integer> entry : result.getScores().entrySet()) {
+                    fixedResultScores.put(entry.getKey(), entry.getValue());
+                }
+                result.setScores(fixedResultScores);
+            }
         }
+
 
         return users;
     }
@@ -99,4 +110,20 @@ public class JsonUtil {
         Map<String, User> users = loadUsers();
         return users.get(nickname);
     }
+
+    public static boolean deleteUserByNickname(String nickname) throws Exception {
+        Map<String, User> users = loadUsers();
+        if (users.containsKey(nickname)) {
+            users.remove(nickname);
+            saveUsers(users); // 파일에 반영
+            return true;
+        }
+        return false;
+    }
+
+    private static void saveUsers(Map<String, User> users) throws IOException {
+        File file = new File(FILE_PATH);
+        mapper.writeValue(file, users);
+    }
+
 }

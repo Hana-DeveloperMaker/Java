@@ -23,6 +23,7 @@ public class Result {
     public String getImgName() { return imgName; }
     public String getMessage() { return message; }
     public Map<ScoreType, Integer> getScores() { return scores; }
+    public void setScores(Map<ScoreType, Integer> scores) { this.scores = scores; }
 
     @Override
     public boolean equals(Object o) {

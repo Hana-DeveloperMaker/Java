@@ -121,7 +121,8 @@ public class InterviewResult extends JFrame {
                     try {
                         User refreshedUser = JsonUtil.loadUserByNickname(user.getNickname());
                         Carousel carousel = new Carousel();
-                        carousel.play(refreshedUser);
+                        carousel.play(refreshedUser, true);
+                        carousel.printNickname(refreshedUser);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
