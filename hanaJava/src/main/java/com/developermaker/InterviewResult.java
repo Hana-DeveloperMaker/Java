@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 
 public class InterviewResult extends JFrame {
 
-    public void play(User user,boolean isEasterEgg) throws InterruptedException {
+    public void play(User user, boolean isEasterEgg) throws InterruptedException {
         printIntro();
         setupFrame();
         JPanel outerPanel = createOuterPanel();
@@ -23,7 +23,7 @@ public class InterviewResult extends JFrame {
         outerPanel.add(createContentPanel(user, passed), BorderLayout.CENTER);
 
         add(outerPanel);
-        addWindowListener(createWindowCloseHandler(passed, user));
+        addWindowListener(createWindowCloseHandler(passed, isEasterEgg, user));
 
         setVisible(true);
     }
@@ -101,7 +101,7 @@ public class InterviewResult extends JFrame {
     }
 
     // 윈도우 종료 이벤트 핸들러 생성
-    private WindowAdapter createWindowCloseHandler(boolean passed, User user) {
+    private WindowAdapter createWindowCloseHandler(boolean passed, boolean isEasterEgg, User user) {
         return new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -110,7 +110,9 @@ public class InterviewResult extends JFrame {
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
-                if (passed) {
+                if (isEasterEgg)
+                    print("😥 옷차림 때문에 지각해서 면접 응시를 못하다니....");
+                else if (!isEasterEgg && passed) {
                     print("😀 야호 합격이다!");
                 } else {
                     print("😥 으으 또 떨어졌네...");
@@ -131,14 +133,16 @@ public class InterviewResult extends JFrame {
 
     // 합격 여부 결정 (점수 합계가 50 이상이면 합격)
     private boolean isPassed(User user, boolean isEasterEgg) {
-        if (!isEasterEgg) return false;
+        if (isEasterEgg) return false;
         else return user.getScores().values().stream().mapToInt(Integer::intValue).sum() >= 50;
     }
 
     // 콘솔 출력 (테두리 포함)
     private void print(String message) {
+        System.out.println();
         System.out.println("═".repeat(60));
         System.out.println(message);
         System.out.println("═".repeat(60));
+        System.out.println();
     }
 }
