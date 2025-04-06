@@ -29,7 +29,7 @@ public class DressUp extends JFrame {
     private JPanel thumbnailPanel;
     private JLabel categoryLabel;
 
-    private final User user;
+    private User user;
 
     private void saveCurrentOutfitImage() {
         int width = 450;
@@ -258,10 +258,8 @@ public class DressUp extends JFrame {
         }
 
         Result resultObj = new Result("outfit", message, scoreMap);
-        user.updateScores(resultObj);
         try {
             JsonUtil.setUserScore(user, resultObj);
-            JsonUtil.saveUser(user);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -309,7 +307,7 @@ public class DressUp extends JFrame {
 
         user.setDressCode(result);
         try {
-            JsonUtil.saveUser(user);
+            JsonUtil.updateDressCodeOnly(user); // ✅ 점수 중복 없이 드레스 코드만 저장
         } catch (Exception ex) {
             ex.printStackTrace();
         }

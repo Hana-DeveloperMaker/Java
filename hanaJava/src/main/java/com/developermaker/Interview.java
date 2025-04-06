@@ -10,7 +10,7 @@ import java.util.*;
 public class Interview extends BaseScenario {
     private final String[] texts = {
             "건물이 너무 멋지잖아?! 꼭 합격하고 말거야!!!",
-            "님 들어와주세요!",
+            "님 들어와주세요!\n",
             "면접관: 안녕하세요. 하나 금융 티아이 최종 면접 시작하겠습니다.",
             "..... ..... ..... ..... ..... .....",
             "면접관: 네, 이상으로 면접 모두 마치겠습니다. 혹시 마지막으로 하시고 싶은 말씀 있으실까요?"
@@ -36,7 +36,7 @@ public class Interview extends BaseScenario {
         for (int i = 0; i < texts.length; i++) {
             String text = texts[i];
             if (i == 1) {
-                System.out.println("📜 " + user.getNickname() + text);
+                System.out.println("\n📜 " + user.getNickname() + text);
             } else if (i == 2) {
                 String message = "📜 면접관: " + switch (user.getDressCode()) {
                     case 1 -> "면접 복장을 보니 상당히 프로페셔널한 인상을 주네요. 혹시 이전에도 여러 기업에서 개발자로 일하셨나요?";

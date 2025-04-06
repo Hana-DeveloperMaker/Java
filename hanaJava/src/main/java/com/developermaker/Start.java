@@ -33,7 +33,6 @@ public class Start {
                     if (existingUser != null) {
                         Carousel carousel = new Carousel();
                         carousel.play(existingUser, false);
-                        return existingUser;
                     } else {
                         System.out.println("\n⚠️ 해당 유저 정보를 찾을 수 없습니다.");
                     }

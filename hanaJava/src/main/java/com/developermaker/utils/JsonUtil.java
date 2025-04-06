@@ -106,6 +106,26 @@ public class JsonUtil {
         return true;
     }
 
+    public static void updateDressCodeOnly(User user) throws Exception {
+        Map<String, User> users = loadUsers();
+        User storedUser = users.get(user.getNickname());
+
+        if (storedUser != null) {
+            storedUser.setDressCode(user.getDressCode()); // ✅ 드레스 코드만 반영
+            mapper.writeValue(new File(FILE_PATH), users);
+        }
+    }
+
+    public static void updateIsPassedOnly(User user) throws Exception {
+        Map<String, User> users = loadUsers();
+        User storedUser = users.get(user.getNickname());
+
+        if (storedUser != null) {
+            storedUser.setIsSuccessed(user.getIsSuccessed()); // ✅ 합불 여부만 반영
+            mapper.writeValue(new File(FILE_PATH), users);
+        }
+    }
+
     public static User loadUserByNickname(String nickname) throws Exception {
         Map<String, User> users = loadUsers();
         return users.get(nickname);

@@ -1,6 +1,7 @@
 package com.developermaker;
 
 import com.developermaker.entity.User;
+import com.developermaker.utils.JsonUtil;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -22,23 +23,30 @@ public class Main {
         // 실행 메서드
         User user = start.play(sc);
         study.play(sc, user);
-        alarm.play(sc, user);
-        wakeUp.play(sc, user);
-        dress.play(sc, user);
+        alarm.play(sc, JsonUtil.loadUserByNickname(user.getNickname()));
+        wakeUp.play(sc, JsonUtil.loadUserByNickname(user.getNickname()));
+        dress.play(sc, JsonUtil.loadUserByNickname(user.getNickname()));
         SwingUtilities.invokeLater(() -> {
-            DressUp dressUp = new DressUp(user);
+            DressUp dressUp = null;
+            try {
+                dressUp = new DressUp(JsonUtil.loadUserByNickname(user.getNickname()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             dressUp.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent e) {
                     try {
-                        boolean isEasterEgg = user.getDressCode() == 0;
-                        transport.play(sc, user, isEasterEgg);
+                        boolean isEasterEgg = JsonUtil.loadUserByNickname(user.getNickname()).getDressCode() == 0;
+                        transport.play(sc, JsonUtil.loadUserByNickname(user.getNickname()), isEasterEgg);
                         if (!isEasterEgg) {
-                            grandma.play(sc, user);
-                            interview.play(sc, user);
+                            grandma.play(sc, JsonUtil.loadUserByNickname(user.getNickname()));
+                            interview.play(sc, JsonUtil.loadUserByNickname(user.getNickname()));
                         }
-                        interviewResult.play(user, isEasterEgg);
+                        interviewResult.play(JsonUtil.loadUserByNickname(user.getNickname()), isEasterEgg);
                     } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 }
