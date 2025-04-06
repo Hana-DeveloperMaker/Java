@@ -10,6 +10,7 @@ public class User {
     private Map<ScoreType, Integer> scores;
     private List<Result> scoreList;
     private int dressCode;
+    private boolean isSuccessed;
 
     public User() {
     }
@@ -65,6 +66,10 @@ public class User {
     public void setDressCode(int dressCode) {
         this.dressCode = dressCode;
     }
+
+    public boolean getIsSuccessed() { return this.isSuccessed; }
+
+    public void setIsSuccessed(boolean isSuccessed) { this.isSuccessed = isSuccessed; }
 
     @Override
     public String toString() {
