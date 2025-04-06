@@ -28,7 +28,7 @@ public class Carousel extends JFrame {
         }
 
         JPanel imagePanel = createImagePanel();
-        JPanel buttonPanel = createButtonPanel();
+        JPanel buttonPanel = createButtonPanel(isEnding);
 
         add(imagePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -84,7 +84,7 @@ public class Carousel extends JFrame {
     }
 
     // ◀▶ 버튼 생성
-    private JPanel createButtonPanel() {
+    private JPanel createButtonPanel(boolean isEnding) {
         JButton leftButton = new JButton("◀");
         JButton rightButton = new JButton("▶");
 
@@ -103,7 +103,8 @@ public class Carousel extends JFrame {
                             JOptionPane.YES_NO_OPTION
                     );
                     if (response == JOptionPane.YES_OPTION) {
-                        System.out.println("게임을 즐겨 주셔서 감사합니다😊");
+                        if (isEnding)
+                            System.out.println("게임을 즐겨 주셔서 감사합니다😊");
                         dispose();
                     }
                 } else {

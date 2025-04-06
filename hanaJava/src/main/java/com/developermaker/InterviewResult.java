@@ -132,14 +132,14 @@ public class InterviewResult extends JFrame {
 
     // 합격 여부 결정 (점수 합계가 50 이상이면 합격)
     private boolean isPassed(User user, boolean isEasterEgg) {
-        int totalScore = user.getScores().values().stream().mapToInt(Integer::intValue).sum();
-        System.out.println("점수 합산 결과: " + totalScore);
-        if (isEasterEgg) {
-            user.setIsSuccessed(false);
-            return false;
-        }
+        if (isEasterEgg) { return false; }
         else  {
             user.setIsSuccessed(user.getScores().values().stream().mapToInt(Integer::intValue).sum() >= 50);
+            try {
+                JsonUtil.updateIsPassedOnly(user);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             return user.getScores().values().stream().mapToInt(Integer::intValue).sum() >= 50;
         }
     }
